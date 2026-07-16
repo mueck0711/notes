@@ -1,0 +1,763 @@
+/* notes — Chirpy 風の見た目を自前レイアウトで再現したもの。
+ * 配色は jekyll-theme-chirpy の _sass/themes/_light.scss から取っている。
+ * 本家と違い gem もビルドパイプラインも使わないので、GitHub Pages の
+ * ブランチビルドのまま動く。ダークモードは持たない（ライト固定）。 */
+
+/* ============================ 配色 ============================ */
+
+:root {
+  /* ライト固定。宣言しておかないと、OS がダークのときブラウザが
+   * スクロールバーやフォーム部品を勝手に暗く描く。 */
+  color-scheme: light;
+
+  --main-bg: white;
+  --mask-bg: #c1c3c5;
+  --main-border-color: #f3f3f3;
+
+  --text-color: #34343c;
+  --text-muted-color: #757575;
+  --heading-color: #2a2a2a;
+  --blockquote-border-color: #eeeeee;
+  --blockquote-text-color: #757575;
+  --link-color: #0056b2;
+  --link-underline-color: #dee2e6;
+  --button-bg: #ffffff;
+  --btn-border-color: #e9ecef;
+  --btn-backtotop-color: #686868;
+  --btn-backtotop-border-color: #f1f1f1;
+  --img-bg: radial-gradient(circle, rgb(255 255 255) 0%, rgb(239 239 239) 100%);
+
+  --site-title-color: rgb(113 113 113);
+  --site-subtitle-color: #717171;
+  --sidebar-bg: #f6f8fa;
+  --sidebar-border-color: #efefef;
+  --sidebar-muted-color: #545454;
+  --sidebar-active-color: #1d1d1d;
+  --sidebar-hover-bg: rgb(223 233 241 / 64%);
+  --sidebar-btn-bg: white;
+  --sidebar-btn-color: #8e8e8e;
+  --avatar-border-color: white;
+
+  --topbar-bg: rgb(255 255 255 / 70%);
+  --topbar-text-color: rgb(78 78 78);
+
+  --toc-highlight: #0550ae;
+  --card-bg: white;
+  --card-shadow: rgb(104 104 104 / 5%) 0 2px 6px 0, rgb(211 209 209 / 15%) 0 0 0 1px;
+  --tb-odd-bg: #fbfcfd;
+  --tb-even-bg: white;
+  --tb-border-color: #eaeaea;
+  --dash-color: silver;
+  --kbd-wrap-color: #bdbdbd;
+  --kbd-text-color: var(--text-color);
+  --kbd-bg-color: white;
+
+  --prompt-text-color: rgb(46 46 46 / 77%);
+  --prompt-tip-bg: rgb(123 247 144 / 20%);
+  --prompt-tip-icon-color: #03b303;
+  --prompt-info-bg: #e1f5fe;
+  --prompt-info-icon-color: #0070cb;
+  --prompt-warning-bg: rgb(255 243 205);
+  --prompt-warning-icon-color: #ef9c03;
+  --prompt-danger-bg: rgb(248 215 218 / 56%);
+  --prompt-danger-icon-color: #df3c30;
+
+  --language-border-color: #ececec;
+  --highlight-bg-color: #f6f8fa;
+  --highlighter-rouge-color: #3f596f;
+  --inline-code-bg: rgb(25 25 28 / 5%);
+  --code-color: #3a3a3a;
+}
+
+/* ============================ 土台 ============================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  scroll-padding-top: 4rem;
+}
+
+body {
+  margin: 0;
+  background: var(--sidebar-bg);
+  color: var(--text-color);
+  /* 欧文は Chirpy と同じ Source Sans / Lato。和文はそこに無いので OS のゴシックへ落ちる
+   * （本家が中文に Microsoft Yahei を当てているのと同じ考え方）。 */
+  font-family: 'Source Sans 3', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+    'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', 'Yu Gothic', Meiryo, sans-serif;
+  font-size: 1rem;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  word-wrap: break-word;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ============================ サイドバー ============================ */
+
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 0;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border-color);
+  display: flex;
+  flex-direction: column;
+  z-index: 99;
+}
+
+#sidebar .profile-wrapper {
+  padding: 2.5rem 1.5rem 1.25rem;
+  text-align: center;
+}
+
+#sidebar .avatar {
+  display: inline-block;
+  width: 6rem;
+  height: 6rem;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--img-bg);
+  box-shadow: 0 0 0 2px var(--avatar-border-color), var(--card-shadow);
+}
+
+#sidebar .avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+#sidebar .avatar:hover img {
+  transform: scale(1.08);
+}
+
+#sidebar .site-title {
+  display: block;
+  font-family: Lato, sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--site-title-color);
+  letter-spacing: 0.02em;
+}
+
+#sidebar .site-title:hover {
+  text-decoration: none;
+  color: var(--sidebar-active-color);
+}
+
+#sidebar .site-subtitle {
+  margin: 0.5rem 0 0;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--site-subtitle-color);
+  word-break: auto-phrase;
+}
+
+#sidebar .nav-wrapper {
+  flex: 1;
+}
+
+#sidebar .nav {
+  list-style: none;
+  margin: 0;
+  padding: 0 0.75rem;
+}
+
+#sidebar .nav-item a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 0.25rem;
+  border-radius: 10px;
+  color: var(--sidebar-muted-color);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+#sidebar .nav-item a:hover {
+  background: var(--sidebar-hover-bg);
+  text-decoration: none;
+}
+
+#sidebar .nav-item.active a {
+  color: var(--sidebar-active-color);
+  background: var(--sidebar-hover-bg);
+}
+
+#sidebar .nav-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex: 0 0 auto;
+  fill: currentcolor;
+}
+
+#sidebar .sidebar-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  padding: 1.5rem 1rem 2rem;
+}
+
+.sidebar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--sidebar-btn-bg);
+  color: var(--sidebar-btn-color);
+  cursor: pointer;
+}
+
+.sidebar-btn:hover {
+  color: var(--sidebar-active-color);
+  text-decoration: none;
+}
+
+.mode-icon {
+  width: 1rem;
+  height: 1rem;
+  fill: currentcolor;
+}
+
+/* ============================ 本体の枠 ============================ */
+
+#main-wrapper {
+  margin-left: 260px;
+  min-height: 100vh;
+  background: var(--main-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+#topbar {
+  position: sticky;
+  top: 0;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 1.5rem;
+  background: var(--topbar-bg);
+  backdrop-filter: blur(8px);
+  color: var(--topbar-text-color);
+  font-size: 0.95rem;
+  z-index: 50;
+}
+
+#topbar .breadcrumb a {
+  color: var(--topbar-text-color);
+}
+
+#topbar .breadcrumb .sep {
+  margin: 0 0.4rem;
+  color: var(--text-muted-color);
+}
+
+#sidebar-trigger {
+  display: none;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+#sidebar-trigger svg {
+  width: 100%;
+  height: 100%;
+}
+
+#main {
+  flex: 1;
+  width: 100%;
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.col.content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ============================ 本文カード ============================ */
+
+.post-content {
+  background: var(--card-bg);
+  border-radius: 10px;
+  box-shadow: var(--card-shadow);
+  padding: 2.5rem 3rem 3rem;
+}
+
+.post-meta {
+  color: var(--text-muted-color);
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ---- 見出し ---- */
+
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4 {
+  color: var(--heading-color);
+  font-family: Lato, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  font-weight: 700;
+  line-height: 1.5;
+  word-break: auto-phrase;
+}
+
+.post-content h1 {
+  margin: 0 0 1.5rem;
+  font-size: 1.85rem;
+  letter-spacing: 0.01em;
+}
+
+.post-content h2 {
+  margin: 3rem 0 1rem;
+  padding-bottom: 0.4rem;
+  font-size: 1.4rem;
+  border-bottom: 1px solid var(--main-border-color);
+}
+
+.post-content h3 {
+  margin: 2.25rem 0 0.75rem;
+  font-size: 1.15rem;
+}
+
+.post-content h4 {
+  margin: 1.75rem 0 0.5rem;
+  font-size: 1rem;
+}
+
+/* 見出しにカーソルを置くとアンカーが出る（Chirpy と同じ挙動）。 */
+.post-content .anchor {
+  margin-left: 0.4rem;
+  opacity: 0;
+  color: var(--text-muted-color);
+  font-weight: 400;
+  transition: opacity 0.1s;
+}
+
+.post-content h2:hover .anchor,
+.post-content h3:hover .anchor {
+  opacity: 1;
+}
+
+/* ---- 段落・リスト ---- */
+
+.post-content p {
+  margin: 0 0 1.15rem;
+}
+
+.post-content ul,
+.post-content ol {
+  margin: 0 0 1.15rem;
+  padding-left: 1.75rem;
+}
+
+.post-content li {
+  margin-bottom: 0.4rem;
+}
+
+.post-content li::marker {
+  color: var(--text-muted-color);
+}
+
+.post-content strong {
+  color: var(--heading-color);
+  font-weight: 700;
+}
+
+.post-content a {
+  border-bottom: 1px solid var(--link-underline-color);
+}
+
+.post-content a:hover {
+  border-bottom-color: var(--link-color);
+  text-decoration: none;
+}
+
+.post-content hr {
+  margin: 2.5rem 0;
+  border: 0;
+  border-top: 1px solid var(--main-border-color);
+}
+
+/* ---- 引用 ---- */
+
+.post-content blockquote {
+  margin: 0 0 1.25rem;
+  padding: 0.25rem 0 0.25rem 1.25rem;
+  border-left: 4px solid var(--blockquote-border-color);
+  color: var(--blockquote-text-color);
+}
+
+.post-content blockquote > p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---- 注意書き（{: .prompt-info } 等） ---- */
+
+.post-content [class^='prompt-'] {
+  position: relative;
+  margin: 1.5rem 0;
+  padding: 0.9rem 1rem 0.9rem 3rem;
+  border-radius: 6px;
+  color: var(--prompt-text-color);
+}
+
+.post-content [class^='prompt-']::before {
+  position: absolute;
+  left: 1rem;
+  top: 0.95rem;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.post-content .prompt-tip {
+  background: var(--prompt-tip-bg);
+}
+.post-content .prompt-tip::before {
+  content: '💡';
+  color: var(--prompt-tip-icon-color);
+}
+.post-content .prompt-info {
+  background: var(--prompt-info-bg);
+}
+.post-content .prompt-info::before {
+  content: 'ℹ';
+  color: var(--prompt-info-icon-color);
+}
+.post-content .prompt-warning {
+  background: var(--prompt-warning-bg);
+}
+.post-content .prompt-warning::before {
+  content: '⚠';
+  color: var(--prompt-warning-icon-color);
+}
+.post-content .prompt-danger {
+  background: var(--prompt-danger-bg);
+}
+.post-content .prompt-danger::before {
+  content: '🚫';
+  color: var(--prompt-danger-icon-color);
+}
+
+.post-content [class^='prompt-'] > p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---- 図版 ---- */
+
+.post-content figure {
+  margin: 1.75rem 0;
+  text-align: center;
+}
+
+.post-content figure img {
+  border-radius: 6px;
+  background: var(--img-bg);
+}
+
+.post-content figcaption {
+  margin-top: 0.6rem;
+  color: var(--text-muted-color);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  word-break: auto-phrase;
+}
+
+/* ---- 表 ---- */
+
+.post-content .table-wrapper {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.post-content table {
+  border-collapse: collapse;
+  min-width: 100%;
+  font-size: 0.9rem;
+}
+
+.post-content th,
+.post-content td {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--tb-border-color);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.post-content th {
+  color: var(--heading-color);
+  font-weight: 700;
+}
+
+.post-content tbody tr:nth-child(odd) {
+  background: var(--tb-odd-bg);
+}
+
+.post-content tbody tr:nth-child(even) {
+  background: var(--tb-even-bg);
+}
+
+/* ---- コード ---- */
+
+.post-content code {
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+}
+
+.post-content :not(pre) > code {
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  background: var(--inline-code-bg);
+  color: var(--highlighter-rouge-color);
+}
+
+.post-content pre {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  border: 1px solid var(--language-border-color);
+  border-radius: 6px;
+  background: var(--highlight-bg-color);
+  color: var(--code-color);
+  line-height: 1.6;
+}
+
+.post-content kbd {
+  padding: 0.1rem 0.4rem;
+  border: 1px solid var(--kbd-wrap-color);
+  border-radius: 4px;
+  border-bottom-width: 2px;
+  background: var(--kbd-bg-color);
+  color: var(--kbd-text-color);
+  font-family: inherit;
+  font-size: 0.8rem;
+}
+
+/* ============================ 目次 ============================ */
+
+#panel-wrapper {
+  flex: 0 0 16rem;
+  width: 16rem;
+  position: sticky;
+  top: 4.5rem;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
+}
+
+#panel-wrapper.empty {
+  display: none;
+}
+
+.panel-heading {
+  margin: 0 0 0.75rem;
+  color: var(--heading-color);
+  font-family: Lato, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+#toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 1px solid var(--main-border-color);
+}
+
+#toc ul ul {
+  border-left: 0;
+}
+
+#toc a {
+  display: block;
+  padding: 0.25rem 0 0.25rem 0.85rem;
+  margin-left: -1px;
+  border-left: 1px solid transparent;
+  color: var(--text-muted-color);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+#toc a:hover {
+  color: var(--toc-highlight);
+  text-decoration: none;
+}
+
+#toc .toc-h3 a {
+  padding-left: 1.75rem;
+  font-size: 0.75rem;
+}
+
+#toc a.active {
+  color: var(--toc-highlight);
+  border-left-color: var(--toc-highlight);
+  font-weight: 600;
+}
+
+/* ============================ 付属品 ============================ */
+
+#footer {
+  padding: 2rem 1.5rem;
+  color: var(--text-muted-color);
+  font-size: 0.8rem;
+  text-align: center;
+  border-top: 1px solid var(--main-border-color);
+}
+
+#footer p {
+  margin: 0;
+}
+
+#back-to-top {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--btn-backtotop-border-color);
+  border-radius: 50%;
+  background: var(--button-bg);
+  color: var(--btn-backtotop-color);
+  box-shadow: var(--card-shadow);
+  cursor: pointer;
+  z-index: 60;
+}
+
+#back-to-top.show {
+  display: flex;
+}
+
+#back-to-top svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+#sidebar-mask {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--mask-bg);
+  opacity: 0.7;
+  z-index: 98;
+}
+
+#sidebar-mask.show {
+  display: block;
+}
+
+/* ============================ 画面幅 ============================ */
+
+/* 目次を畳む */
+@media (max-width: 1199px) {
+  #panel-wrapper {
+    display: none;
+  }
+}
+
+/* サイドバーを引き出しにする */
+@media (max-width: 849px) {
+  #sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+  }
+
+  #sidebar.show {
+    transform: translateX(0);
+  }
+
+  #main-wrapper {
+    margin-left: 0;
+  }
+
+  #sidebar-trigger {
+    display: block;
+  }
+
+  #main {
+    padding: 1rem 0.75rem;
+  }
+
+  .post-content {
+    padding: 1.75rem 1.25rem 2rem;
+    border-radius: 6px;
+  }
+
+  .post-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .post-content h2 {
+    font-size: 1.25rem;
+    margin-top: 2.25rem;
+  }
+}
+
+@media print {
+  #sidebar,
+  #topbar,
+  #panel-wrapper,
+  #back-to-top {
+    display: none;
+  }
+
+  #main-wrapper {
+    margin-left: 0;
+  }
+
+  .post-content {
+    box-shadow: none;
+    padding: 0;
+  }
+}

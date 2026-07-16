@@ -1,0 +1,23 @@
+---
+layout: default
+---
+<div class="row">
+  <div class="col content">
+    <article class="post-content">
+      {%- if page.date %}
+      <div class="post-meta">
+        <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%Y年%-m月%-d日' }}</time>
+      </div>
+      {%- endif %}
+      {{ content }}
+    </article>
+  </div>
+
+  {%- comment -%} 目次は本文の見出しから site.js が組み立てる（見出しが無ければ自分で隠れる）。 {%- endcomment -%}
+  <aside id="panel-wrapper" aria-label="目次">
+    <div class="access">
+      <h2 class="panel-heading">目次</h2>
+      <nav id="toc"></nav>
+    </div>
+  </aside>
+</div>

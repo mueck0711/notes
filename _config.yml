@@ -1,1 +1,51 @@
-theme: jekyll-theme-minimal
+title: notes
+tagline: ビットコインをめぐる読み物と、日次のマーケットレポート
+description: ビットコインをめぐる読み物と、日次のマーケットレポート。
+url: https://mueck0711.github.io
+baseurl: /notes
+lang: ja
+
+github_username: mueck0711
+
+# GitHub Pages のブランチビルドでは既定で有効。ローカルの検証ビルドと挙動を揃えるため明示する。
+#   optional-front-matter … front matter の無い .md を描画する（BMA が生成する
+#                            market-reports/*/README.md は front matter を持たない）
+#   readme-index          … README.md をそのフォルダの index.html にする
+plugins:
+  - jekyll-optional-front-matter
+  - jekyll-readme-index
+
+# front matter が無いファイルにもレイアウトを与えるための唯一の口。
+# 記事側に手を入れずに済むので、BMA の生成物をそのまま載せられる。
+defaults:
+  - scope:
+      path: ''
+    values:
+      layout: page
+  - scope:
+      path: essays
+    values:
+      layout: post
+  - scope:
+      path: market-reports
+    values:
+      layout: post
+  # 各フォルダの一覧ページは記事ではないので page に戻す（より長いパスが勝つ）。
+  - scope:
+      path: essays/README.md
+    values:
+      layout: page
+  - scope:
+      path: market-reports/README.md
+    values:
+      layout: page
+
+kramdown:
+  input: GFM
+  auto_ids: true
+  syntax_highlighter: rouge
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor

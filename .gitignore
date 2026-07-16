@@ -8,3 +8,24 @@
 !*.png
 !.gitignore
 !_config.yml
+
+# サイトの見た目。拡張子ではなくパスで開けて、許可リストの思想を保つ
+# （*.html や *.css を全面的に許可すると、どこの .html でも公開側へ入ってしまう）。
+!_layouts/*.html
+!_includes/*.html
+!assets/css/*.css
+!assets/js/*.js
+
+# ローカル確認用のビルド定義。本番（ブランチビルド）はこれを読まない。
+!Gemfile
+
+# ローカルビルドの成果物。上の !*.md / !*.png が _site/ の中身まで拾うため、
+# 許可リストの後ろで明示的に打ち消す（後の行が勝つ）。
+_site/
+.jekyll-cache/
+.sass-cache/
+vendor/
+.bundle/
+# Gemfile.lock は追跡しない。本番は読まないうえ、手元の Ruby 版に依存した
+# 解決結果が入るので、共有すると噛み合わない。
+Gemfile.lock
