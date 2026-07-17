@@ -6,6 +6,7 @@ baseurl: /notes
 lang: ja
 
 github_username: mueck0711
+x_username: mueck0711
 
 # GitHub Pages のブランチビルドでは既定で有効。ローカルの検証ビルドと挙動を揃えるため明示する。
 #   optional-front-matter … front matter の無い .md を描画する（BMA が生成する
