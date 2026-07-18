@@ -8,6 +8,9 @@ lang: ja
 github_username: mueck0711
 x_username: mueck0711
 
+# card.png の無いページ（essays・トップ・一覧・旧レポート）の既定 og:image。
+og_image: /assets/img/og-default.png
+
 # GitHub Pages のブランチビルドでは既定で有効。ローカルの検証ビルドと挙動を揃えるため明示する。
 #   optional-front-matter … front matter の無い .md を描画する（BMA が生成する
 #                            market-reports/*/README.md は front matter を持たない）
