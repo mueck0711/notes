@@ -8,7 +8,7 @@ lang: ja
 github_username: mueck0711
 x_username: mueck0711
 
-# card.png の無いページ（essays・トップ・一覧・旧レポート）の既定 og:image。
+# card.png の無いページ（articles・トップ・一覧・旧レポート）の既定 og:image。
 og_image: /assets/img/og-default.png
 
 # GitHub Pages のブランチビルドでは既定で有効。ローカルの検証ビルドと挙動を揃えるため明示する。
@@ -27,7 +27,7 @@ defaults:
     values:
       layout: page
   - scope:
-      path: essays
+      path: articles
     values:
       layout: post
   - scope:
@@ -36,7 +36,7 @@ defaults:
       layout: post
   # 各フォルダの一覧ページは記事ではないので page に戻す（より長いパスが勝つ）。
   - scope:
-      path: essays/README.md
+      path: articles/README.md
     values:
       layout: page
   - scope:

@@ -15,8 +15,8 @@
       </button>
       <nav class="breadcrumb" aria-label="パンくず">
         <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
-        {%- if page.url contains '/essays' %}
-          <span class="sep">/</span><a href="{{ '/essays/' | relative_url }}">読み物</a>
+        {%- if page.url contains '/articles' %}
+          <span class="sep">/</span><a href="{{ '/articles/' | relative_url }}">読み物</a>
         {%- elsif page.url contains '/market-reports' %}
           <span class="sep">/</span><a href="{{ '/market-reports/' | relative_url }}">マーケットレポート</a>
         {%- endif -%}

@@ -1,6 +1,6 @@
 {%- comment -%}
   ページ見出しの決定。
-  essays は front matter に title を持つが、BMA が生成する market-reports は
+  articles は front matter に title を持つが、BMA が生成する market-reports は
   front matter を持たない。そこで本文の最初の <h1> から拾う。どちらも本文に H1 が
   あるので、レイアウト側で title を別途刷らない（重複を避ける）。
 {%- endcomment -%}
@@ -25,8 +25,8 @@
   画像の出し分け（上から優先）:
     1. front matter の image
     2. レポートフォルダの card.png（BMA が日次生成する共有カード）
-    3. essay の専用カード /assets/img/essays/<slug>.png（publish-article が生成。
-       essays はフラットファイルで card.png フォルダ判定が効かないため slug 規約で拾う）
+    3. article の専用カード /assets/img/articles/<slug>.png（publish-article が生成。
+       articles はフラットファイルで card.png フォルダ判定が効かないため slug 規約で拾う）
     4. 既定画像 site.og_image
   2・3 は実在する静的ファイルだけヒットさせる（推測でパスを組み立てて 404 を出さない）。
 {%- endcomment -%}
@@ -35,12 +35,12 @@
 {%- else -%}
   {%- assign card_path = page.url | append: 'card.png' -%}
   {%- assign card_file = site.static_files | where: 'path', card_path | first -%}
-  {%- assign essay_card = page.url | replace: '.html', '.png' | replace: '/essays/', '/assets/img/essays/' -%}
-  {%- assign essay_file = site.static_files | where: 'path', essay_card | first -%}
+  {%- assign article_card = page.url | replace: '.html', '.png' | replace: '/articles/', '/assets/img/articles/' -%}
+  {%- assign article_file = site.static_files | where: 'path', article_card | first -%}
   {%- if card_file -%}
     {%- assign og_image_path = card_path -%}
-  {%- elsif page.url contains '/essays/' and essay_file -%}
-    {%- assign og_image_path = essay_card -%}
+  {%- elsif page.url contains '/articles/' and article_file -%}
+    {%- assign og_image_path = article_card -%}
   {%- else -%}
     {%- assign og_image_path = site.og_image -%}
   {%- endif -%}
