@@ -732,6 +732,7 @@ img {
   .post-content {
     padding: 1.75rem 1.25rem 2rem;
     border-radius: 6px;
+    font-size: 1.125rem;   /* 18px。スマホの本文だけ拡大。見出しは rem 基準（root 16px）で据え置き */
   }
 
   .post-content h1 {
