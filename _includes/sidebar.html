@@ -9,7 +9,11 @@
       <img src="https://github.com/{{ site.github_username }}.png?size=160"
            alt="{{ site.github_username }}" width="160" height="160" loading="lazy">
     </a>
-    <a href="{{ '/' | relative_url }}" class="site-title">{{ site.title }}</a>
+    {%- comment -%}
+      title_wrap は <br> で改行位置を指定したサイドバー専用の表記（_config.yml のコメント参照）。
+      未設定なら title をそのまま出す。
+    {%- endcomment -%}
+    <a href="{{ '/' | relative_url }}" class="site-title">{{ site.title_wrap | default: site.title }}</a>
     <p class="site-subtitle">{{ site.tagline }}</p>
   </header>
 

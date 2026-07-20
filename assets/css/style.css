@@ -156,13 +156,18 @@ img {
   transform: scale(1.08);
 }
 
+/* サイト名は和文なので、Lato（和文グリフを持たない）に他所と同じスタックを足す。
+ * 改行位置は _config.yml の title_wrap が <br> で持つ（サイドバーは 212px しか
+ * 幅が無く、11文字は1行に入らない）。word-break: auto-phrase は効かない——
+ * 「ビットコイン経済研究所」は文節の切れ目を持たない複合名詞で、分割モデルが
+ * break point を見つけられず「…経済研／究所」に落ちる。 */
 #sidebar .site-title {
   display: block;
-  font-family: Lato, sans-serif;
+  font-family: Lato, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
   font-size: 1.75rem;
   font-weight: 700;
   color: var(--site-title-color);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
 }
 
 #sidebar .site-title:hover {

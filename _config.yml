@@ -1,6 +1,10 @@
-title: notes
-tagline: ビットコインをめぐる読み物と、日次のマーケットレポート
-description: ビットコインをめぐる読み物と、日次のマーケットレポート。
+title: ビットコイン経済研究所
+# サイドバー表示専用の改行位置。幅 212px に 1.75rem の11文字は入らず、複合名詞なので
+# CSS の word-break: auto-phrase も切れ目を見つけられない（「…経済研／究所」になる）。
+# <title>・OGP・パンくず・フッターは上の title をそのまま使う。
+title_wrap: ビットコイン<br>経済研究所
+tagline: ビットコインを市場・経済・社会の側から読む。論考と、日次のマーケットレポート
+description: ビットコインを市場・経済・社会の側から読む。論考と、日次のマーケットレポート。
 url: https://mueck0711.github.io
 baseurl: /notes
 lang: ja
