@@ -14,14 +14,14 @@
     上部＝ヘッダー＋価格＋リードだけがサムネイルとして機能する）
 {%- endcomment -%}
 
-{%- comment -%} ---- 読み物: 専用カードを持つ記事を新しい順に全部 ---- {%- endcomment -%}
+{%- comment -%} ---- 論考: 専用カードを持つ記事を新しい順に全部 ---- {%- endcomment -%}
 {%- assign articles = site.pages
       | where_exp: 'p', "p.url contains '/articles/'"
       | where_exp: 'p', "p.url != '/articles/'"
       | sort: 'date' | reverse -%}
 
 <section class="tile-section">
-  <h2 class="tile-heading"><a href="{{ '/articles/' | relative_url }}">読み物</a></h2>
+  <h2 class="tile-heading"><a href="{{ '/articles/' | relative_url }}">論考</a></h2>
   <p class="tile-lead">ビットコインに関する考察記事です</p>
 
   <ul class="tile-grid tile-grid--article">
@@ -65,7 +65,7 @@
       | sort: 'path' | reverse -%}
 
 <section class="tile-section">
-  <h2 class="tile-heading"><a href="{{ '/market-reports/' | relative_url }}">BTCマーケットレポート</a></h2>
+  <h2 class="tile-heading"><a href="{{ '/market-reports/' | relative_url }}">マーケットレポート</a></h2>
   <p class="tile-lead">オンチェーン／オフチェーン指標を毎朝やさしくまとめた日次アーカイブ。新しい順に並んでいます。</p>
 
   <ul class="tile-grid tile-grid--report">

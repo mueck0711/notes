@@ -1,4 +1,4 @@
-# articles
+# 論考
 
 ## Contents
 

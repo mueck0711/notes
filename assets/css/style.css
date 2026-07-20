@@ -129,7 +129,9 @@ img {
 }
 
 #sidebar .profile-wrapper {
-  padding: 2.5rem 1.5rem 1.25rem;
+  /* 左右 1rem はサイト名を1行に収めるための実効幅（260 - 32 = 228px）。
+   * 1.5rem に戻すと 212px になり「ビットコイン経済研究所」が折り返す。 */
+  padding: 2.5rem 1rem 1.25rem;
   text-align: center;
 }
 
@@ -157,17 +159,16 @@ img {
 }
 
 /* サイト名は和文なので、Lato（和文グリフを持たない）に他所と同じスタックを足す。
- * 改行位置は _config.yml の title_wrap が <br> で持つ（サイドバーは 212px しか
- * 幅が無く、11文字は1行に入らない）。word-break: auto-phrase は効かない——
- * 「ビットコイン経済研究所」は文節の切れ目を持たない複合名詞で、分割モデルが
- * break point を見つけられず「…経済研／究所」に落ちる。 */
+ * font-size と letter-spacing は「ビットコイン経済研究所」全角11文字を1行に収める
+ * ための値（11 × 20px = 220px ≤ 実効幅 228px）。和文は1文字 = 1em 進むので、
+ * letter-spacing を足すと 11 文字ぶん効いて溢れる。大きくするなら profile-wrapper の
+ * padding か #sidebar の width（:262 の margin-left と対）を一緒に見直すこと。 */
 #sidebar .site-title {
   display: block;
   font-family: Lato, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
-  font-size: 1.75rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--site-title-color);
-  letter-spacing: 0.04em;
 }
 
 #sidebar .site-title:hover {
