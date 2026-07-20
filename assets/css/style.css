@@ -282,6 +282,12 @@ img {
   z-index: 50;
 }
 
+/* トップはパンくずを持たず中身が空になるので、バーごと畳んで上の余白を詰める。
+ * 狭い画面ではここにハンバーガーが入るため、下のメディアクエリで戻す。 */
+#topbar.is-empty {
+  display: none;
+}
+
 #topbar .breadcrumb a {
   color: var(--topbar-text-color);
 }
@@ -868,6 +874,11 @@ img {
 
   #sidebar-trigger {
     display: block;
+  }
+
+  /* 狭い画面ではトップでもバーが要る（ハンバーガーの置き場）。 */
+  #topbar.is-empty {
+    display: flex;
   }
 
   #main {
