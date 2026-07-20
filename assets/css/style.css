@@ -522,6 +522,19 @@ img {
   word-break: auto-phrase;
 }
 
+/* ---- 動画（YouTube 埋め込み） ----
+ * figure なので margin と figcaption は上の図版の指定がそのまま効く。
+ * 縦横比はカードタイルと同じく aspect-ratio で持つ（padding-top ハックは使わない）。 */
+
+.post-content .video-embed iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 6px;
+  background: var(--img-bg);
+}
+
 /* ---- 表 ---- */
 
 .post-content .table-wrapper {
