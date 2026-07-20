@@ -729,21 +729,15 @@ img {
   margin: 0 0 1rem;
 }
 
+/* 読み物とレポートで同じ下限にして、上下のタイルの縦線を揃える。
+ * min() を挟まないと、画面が下限値より狭いときにトラックが縮まず横へあふれる（スマホで実測） */
 .tile-grid {
   display: grid;
   gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-/* min() を挟まないと、画面が下限値より狭いときにトラックが縮まず横へあふれる（スマホで実測） */
-.tile-grid--article {
-  grid-template-columns: repeat(auto-fill, minmax(min(360px, 100%), 1fr));
-}
-
-.tile-grid--report {
-  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
 }
 
 .tile-link {
