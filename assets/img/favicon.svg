@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <rect width="256" height="256" rx="52" fill="#22262e"/>
+  <line x1="128" y1="30" x2="128" y2="226" stroke="#f7931a" stroke-width="3" opacity="0.45"/>
+  <line x1="30" y1="128" x2="226" y2="128" stroke="#f7931a" stroke-width="3" opacity="0.45"/>
+  <g font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="98" text-anchor="middle">
+    <text x="80" y="120" fill="#f4f1ea">B</text>
+    <text x="178" y="120" fill="#f7931a">E</text>
+    <text x="80" y="214" fill="#f4f1ea">R</text>
+    <text x="178" y="214" fill="#f4f1ea">I</text>
+  </g>
+</svg>

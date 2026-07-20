@@ -1,4 +1,6 @@
 title: ビットコイン経済研究所
+# 英語名。今はトップの <title> だけで使う（他の使いどころは未定）。
+title_en: Bitcoin Economics Research Institute
 tagline: ビットコインを市場・経済・社会の側から読む。論考と、日次のマーケットレポート
 description: ビットコインを市場・経済・社会の側から読む。論考と、日次のマーケットレポート。
 url: https://mueck0711.github.io

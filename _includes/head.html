@@ -12,7 +12,7 @@
 {%- if page_title and page_title != '' and page.url != '/' -%}
   {%- assign full_title = page_title | append: ' | ' | append: site.title -%}
 {%- else -%}
-  {%- assign full_title = site.title | append: ' — ' | append: site.tagline -%}
+  {%- assign full_title = site.title | append: ' | ' | append: site.title_en -%}
 {%- endif -%}
 
 <meta charset="utf-8">
@@ -77,6 +77,15 @@
 <meta name="twitter:title" content="{{ og_title | escape }}">
 <meta name="twitter:description" content="{{ og_desc | escape }}">
 <meta name="twitter:image" content="{{ og_image }}">
+
+{%- comment -%}
+  favicon。baseurl が /notes なので、ブラウザが暗黙に叩く /favicon.ico はこのリポジトリでは
+  なくユーザーサイト側の root を指す＝届かない。ここで明示的に宣言しないと効かない。
+  原本と他サイズは dev/notes-design/assets-src/logo/。
+{%- endcomment -%}
+<link rel="icon" href="{{ '/assets/img/favicon.svg' | relative_url }}" type="image/svg+xml">
+<link rel="icon" href="{{ '/assets/img/favicon-32.png' | relative_url }}" sizes="32x32">
+<link rel="apple-touch-icon" href="{{ '/assets/img/apple-touch-icon.png' | relative_url }}">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
