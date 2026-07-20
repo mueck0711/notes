@@ -1,0 +1,17 @@
+---
+layout: default
+---
+{%- comment -%}
+  トップ専用。README.md（front matter 無し。jekyll-readme-index 経由）のリード文を出したあと、
+  カードタイルを差し込む。Markdown 側にタイルの HTML を書かせないための層。
+  当て方は _config.yml の defaults（→ adr/0002）。
+{%- endcomment -%}
+<div class="row">
+  <div class="col content">
+    <article class="post-content page-content">
+      {{ content }}
+    </article>
+
+    {%- include card-grid.html -%}
+  </div>
+</div>

@@ -1,0 +1,98 @@
+{%- comment -%}
+  トップのカードタイル。
+
+  画像は「既に notes/ にある X 投稿用カード」をそのまま流用する（新規の生成処理を持たない）:
+    記事   … /assets/img/articles/<slug>.png   （dev/publish-article が公開時に生成。1200x630）
+    レポート … /market-reports/<date>/card.png  （dev/BMA が毎朝生成。1068x1345 の縦長ポスター）
+
+  どちらも site.static_files で「実在するものだけ」拾う（head.html の og:image と同じ手法。→ adr/0006）。
+  推測でパスを組み立てると、カードを持たない古いレポートで 404 の画像枠が並ぶ。
+
+  比率が違うので CSS 側でタイルを分けている:
+    記事は 1200/630 のまま（タイトルが画像に焼かれているので切らない）
+    レポートは 16/9 に上端揃えで切る（縦長全体を縮小すると本文が潰れて読めない。
+    上部＝ヘッダー＋価格＋リードだけがサムネイルとして機能する）
+{%- endcomment -%}
+
+{%- comment -%} ---- 読み物: 専用カードを持つ記事を新しい順に全部 ---- {%- endcomment -%}
+{%- assign articles = site.pages
+      | where_exp: 'p', "p.url contains '/articles/'"
+      | where_exp: 'p', "p.url != '/articles/'"
+      | sort: 'date' | reverse -%}
+
+<section class="tile-section">
+  <h2 class="tile-heading"><a href="{{ '/articles/' | relative_url }}">読み物</a></h2>
+  <p class="tile-lead">ビットコインを「人工的な自然物」として捉えるエッセイと、分析的ナラティブ・ゲーム理論から国家間の受容を読むレポート。</p>
+
+  <ul class="tile-grid tile-grid--article">
+    {%- for p in articles -%}
+      {%- assign card = p.url | replace: '.html', '.png' | replace: '/articles/', '/assets/img/articles/' -%}
+      {%- assign card_file = site.static_files | where: 'path', card | first -%}
+      <li class="tile">
+        <a class="tile-link" href="{{ p.url | relative_url }}">
+          {%- if card_file %}
+          <span class="tile-thumb tile-thumb--article">
+            <img src="{{ card | relative_url }}" alt="" loading="lazy" width="1200" height="630">
+          </span>
+          {%- endif %}
+          <span class="tile-body">
+            {%- comment -%}
+              記事カードにはタイトルが焼かれているので、見た目には出さない（同じ文字が二重になる）。
+              ただしリンクのラベルとして必要なので、読み上げ・画像 off 用に残す。
+              カードを持たない記事（card_file 無し）だけは可視にする。
+            {%- endcomment -%}
+            <span class="tile-title{% if card_file %} tile-title--sr{% endif %}">{{ p.title }}</span>
+            <span class="tile-meta">{{ p.date | date: '%Y-%m-%d' }}{% if p.category %} / {{ p.category }}{% endif %}</span>
+          </span>
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+</section>
+
+{%- comment -%}
+  ---- マーケットレポート: card.png を持つ直近 N 日 ----
+  静的ファイル側から引くので、カードのある日だけが並ぶ。日付フォルダ名は辞書順＝時系列順。
+  タイトルは front matter が無いので本文の H1（1行目）から取る（head.html と同じ考え方だが、
+  こちらは他ページの生 Markdown を見るので split で1行目を取る）。
+{%- endcomment -%}
+{%- assign report_limit = 6 -%}
+{%- assign nl = '
+' -%}
+{%- assign cards = site.static_files
+      | where: 'name', 'card.png'
+      | where_exp: 'f', "f.path contains '/market-reports/'"
+      | sort: 'path' | reverse -%}
+
+<section class="tile-section">
+  <h2 class="tile-heading"><a href="{{ '/market-reports/' | relative_url }}">BTCマーケットレポート</a></h2>
+  <p class="tile-lead">オンチェーン／オフチェーン指標を毎朝やさしくまとめた日次アーカイブ。新しい順に並んでいます。</p>
+
+  <ul class="tile-grid tile-grid--report">
+    {%- for f in cards limit: report_limit -%}
+      {%- assign dir = f.path | remove: 'card.png' -%}
+      {%- assign date = dir | split: '/' | last -%}
+      {%- assign p = site.pages | where: 'url', dir | first -%}
+      {%- assign title = date -%}
+      {%- if p -%}
+        {%- assign first_line = p.content | strip | split: nl | first | strip -%}
+        {%- if first_line contains '# ' -%}
+          {%- assign title = first_line | remove_first: '#' | strip -%}
+        {%- endif -%}
+      {%- endif -%}
+      <li class="tile">
+        <a class="tile-link" href="{{ dir | relative_url }}">
+          <span class="tile-thumb tile-thumb--report">
+            <img src="{{ f.path | relative_url }}" alt="" loading="lazy">
+          </span>
+          <span class="tile-body">
+            <span class="tile-title">{{ title }}</span>
+            <span class="tile-meta">{{ date }}</span>
+          </span>
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+
+  <p class="tile-more"><a href="{{ '/market-reports/' | relative_url }}">すべてのレポートを見る →</a></p>
+</section>

@@ -34,6 +34,11 @@ defaults:
       path: market-reports
     values:
       layout: post
+  # トップはカードタイルを持つ専用レイアウト。
+  - scope:
+      path: README.md
+    values:
+      layout: home
   # 各フォルダの一覧ページは記事ではないので page に戻す（より長いパスが勝つ）。
   - scope:
       path: articles/README.md

@@ -697,6 +697,151 @@ img {
   display: block;
 }
 
+/* ============================ トップのカードタイル ============================ */
+
+/* 画像は X 投稿用カードの流用。記事は横長(1200x630)でタイトルが焼かれているので切らず、
+ * レポートは縦長ポスターなので上端(ヘッダー+価格)だけを 16:9 で切り出す。→ _includes/card-grid.html */
+
+.tile-section {
+  margin-top: 2.5rem;
+}
+
+.tile-heading {
+  color: var(--heading-color);
+  font-family: Lato, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  font-size: 1.375rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem;
+}
+
+.tile-heading a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.tile-heading a:hover {
+  color: var(--link-color);
+}
+
+.tile-lead {
+  color: var(--text-muted-color);
+  font-size: 0.9rem;
+  margin: 0 0 1rem;
+}
+
+.tile-grid {
+  display: grid;
+  gap: 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* min() を挟まないと、画面が下限値より狭いときにトラックが縮まず横へあふれる（スマホで実測） */
+.tile-grid--article {
+  grid-template-columns: repeat(auto-fill, minmax(min(360px, 100%), 1fr));
+}
+
+.tile-grid--report {
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+}
+
+.tile-link {
+  background: var(--card-bg);
+  border-radius: 10px;
+  box-shadow: var(--card-shadow);
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tile-link:hover {
+  box-shadow: rgb(104 104 104 / 12%) 0 4px 12px 0, rgb(211 209 209 / 25%) 0 0 0 1px;
+  transform: translateY(-2px);
+}
+
+.tile-thumb {
+  background: var(--img-bg);
+  border-bottom: 1px solid var(--main-border-color);
+  display: block;
+  overflow: hidden;
+}
+
+.tile-thumb img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.tile-thumb--article {
+  aspect-ratio: 1200 / 630;   /* カードの実寸。切らずに全面を見せる */
+}
+
+.tile-thumb--report {
+  aspect-ratio: 16 / 9;
+}
+
+.tile-thumb--report img {
+  object-position: top;       /* 縦長ポスターの上端だけ。全体を縮小すると本文が潰れる */
+}
+
+.tile-body {
+  display: block;
+  padding: 0.9rem 1rem 1.1rem;
+}
+
+.tile-title {
+  color: var(--heading-color);
+  display: block;
+  font-family: Lato, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.5;
+  word-break: auto-phrase;
+}
+
+.tile-link:hover .tile-title {
+  color: var(--link-color);
+}
+
+/* 画像にタイトルが焼かれている記事タイル用。見た目からは消すがリンクのラベルとしては残す */
+.tile-title--sr {
+  border: 0;
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.tile-meta {
+  color: var(--text-muted-color);
+  display: block;
+  font-size: 0.8rem;
+  margin-top: 0.4rem;
+}
+
+.tile-more {
+  font-size: 0.9rem;
+  margin: 1rem 0 0;
+}
+
+.tile-more a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.tile-more a:hover {
+  text-decoration: underline;
+}
+
 /* ============================ 画面幅 ============================ */
 
 /* 目次を畳む */
