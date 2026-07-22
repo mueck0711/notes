@@ -13,6 +13,11 @@ x_username: mueck0711
 # card.png の無いページ（articles・トップ・一覧・旧レポート）の既定 og:image。
 og_image: /assets/img/og-default.png
 
+# GA4 の測定 ID。空にすると _includes/analytics.html が何も出さない。
+# タグが出るのは production ビルドのときだけ（ローカルの検証は計測しない）。
+# 測定 ID は元々ページのソースに出る公開値なので、Public リポジトリに置いてよい。
+google_analytics: G-B1FX4R34FF
+
 # GitHub Pages のブランチビルドでは既定で有効。ローカルの検証ビルドと挙動を揃えるため明示する。
 #   optional-front-matter … front matter の無い .md を描画する（BMA が生成する
 #                            market-reports/*/README.md は front matter を持たない）

@@ -680,6 +680,12 @@ img {
   margin: 0;
 }
 
+/* フッターは muted な文字色。リンクだけリンク色で浮かないよう地の色に揃える。 */
+#footer a {
+  color: inherit;
+  text-decoration: underline;
+}
+
 #back-to-top {
   position: fixed;
   right: 1.5rem;

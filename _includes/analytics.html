@@ -1,0 +1,22 @@
+{%- comment -%}
+  Google Analytics 4。測定 ID は _config.yml の google_analytics。
+
+  production ビルド（GitHub Pages のブランチビルド）でだけ出す。ローカルの
+  `jekyll serve` は development なので、見た目の検証アクセスが計測に混ざらない。
+  **ローカルで gtag が見えなくても壊れていない。** 確かめるなら
+  `JEKYLL_ENV=production bundle exec jekyll build` でビルドする。
+
+  ID が空のときも何も出さない（測定 ID を取る前でも壊れない）。
+  GitHub Pages のブランチビルドではプラグインを足せない（→ adr/0004 と同じ制約）ので
+  タグは手書きする。→ adr/0009
+{%- endcomment -%}
+{%- if site.google_analytics and jekyll.environment == 'production' -%}
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ site.google_analytics }}');
+</script>
+{%- endif -%}
