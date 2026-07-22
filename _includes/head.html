@@ -21,6 +21,18 @@
 <meta name="description" content="{{ page.description | default: site.description }}">
 
 {%- comment -%}
+  **btc-news だけ OGP を出さない＝ X にカードを出さない。**
+  あのポストは数字4行＋絵文字ヘッドラインの高密度リストが本体で、末尾の URL は導線に過ぎない。
+  カードが出ると、記事ごとに変わらない既定画像に視線が集まってリストから注意が逸れる
+  （btc-news はカード画像を生成しないので、必ず既定画像が当たる＝情報を足さない）。
+  meta を一切出さなければ X はプレーンなリンクとして描く。→ dev/notes-design/docs/adr/0010
+
+  description（上の meta）は残す。あれは検索向けで、カードとは別。
+  カードを出したくなったら、この分岐を外すのではなく **専用の og.png を生成する**側に倒すこと
+  （既定画像のまま分岐だけ戻すと、また同じ「情報の無いカード」に戻る）。
+{%- endcomment -%}
+{%- unless page.url contains '/btc-news' -%}
+{%- comment -%}
   OGP / Twitter Cards。X や Slack 等に URL を貼ったときのプレビューカード。
   画像の出し分け（上から優先）:
     1. front matter の image
@@ -77,6 +89,7 @@
 <meta name="twitter:title" content="{{ og_title | escape }}">
 <meta name="twitter:description" content="{{ og_desc | escape }}">
 <meta name="twitter:image" content="{{ og_image }}">
+{%- endunless -%}
 
 {%- comment -%}
   favicon。baseurl が /notes なので、ブラウザが暗黙に叩く /favicon.ico はこのリポジトリでは

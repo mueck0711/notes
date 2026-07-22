@@ -39,6 +39,19 @@
           <span>マーケットレポート</span>
         </a>
       </li>
+      {%- comment -%}
+        btc-news（毎朝の「きのうのビットコイン」）。アイコンは箱で囲わず横バーだけで描く
+        ——他の nav-icon と同じく塗り(fill)なので、外枠の中に線を引いても同じ向きの
+        サブパスは穴にならず塗り潰されて消える。ヘッドラインの並びをそのまま図案にした。
+      {%- endcomment -%}
+      <li class="nav-item{% if url contains '/btc-news' %} active{% endif %}">
+        <a href="{{ '/btc-news/' | relative_url }}">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 4h18v3H3zm0 5h11v2H3zm0 4h18v2H3zm0 4h11v2H3z"/>
+          </svg>
+          <span>きのうのビットコイン</span>
+        </a>
+      </li>
     </ul>
   </nav>
 

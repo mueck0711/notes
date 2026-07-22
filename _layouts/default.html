@@ -29,6 +29,8 @@
           <span class="sep">/</span><a href="{{ '/articles/' | relative_url }}">論考</a>
         {%- elsif page.url contains '/market-reports' %}
           <span class="sep">/</span><a href="{{ '/market-reports/' | relative_url }}">マーケットレポート</a>
+        {%- elsif page.url contains '/btc-news' %}
+          <span class="sep">/</span><a href="{{ '/btc-news/' | relative_url }}">きのうのビットコイン</a>
         {%- endif -%}
       </nav>
       {%- endif -%}
