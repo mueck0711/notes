@@ -41,6 +41,10 @@ defaults:
       path: market-reports
     values:
       layout: post
+  - scope:
+      path: btc-news
+    values:
+      layout: post
   # トップはカードタイルを持つ専用レイアウト。
   - scope:
       path: README.md
@@ -53,6 +57,10 @@ defaults:
       layout: page
   - scope:
       path: market-reports/README.md
+    values:
+      layout: page
+  - scope:
+      path: btc-news/README.md
     values:
       layout: page
 
