@@ -528,7 +528,10 @@ img {
 
 .post-content .video-embed iframe {
   display: block;
-  width: 100%;
+  /* 本文幅いっぱいだと動画が主役になりすぎるので 70% に絞って中央へ置く。
+   * 狭い画面（〜849px）では下のメディアクエリで 100% に戻す（70% だと小さすぎる）。 */
+  width: 70%;
+  margin-inline: auto;
   aspect-ratio: 16 / 9;
   border: 0;
   border-radius: 6px;
@@ -901,6 +904,11 @@ img {
 
   #main {
     padding: 1rem 0.75rem;
+  }
+
+  /* 狭い画面では 70% だと小さすぎるので本文幅いっぱいに戻す。 */
+  .post-content .video-embed iframe {
+    width: 100%;
   }
 
   .post-content {
