@@ -538,6 +538,15 @@ img {
   background: var(--img-bg);
 }
 
+/* ---- ツイート埋め込み ----
+ * widgets.js が中央寄せ・最大幅 550px の <twitter-widget> を器に差し込む。
+ * ここは器の縦間隔だけ持つ（図版と同じリズム）。align:center は JS 側で指定。 */
+
+.post-content .tweet-embed {
+  margin: 1.75rem 0;
+  text-align: center;
+}
+
 /* ---- 表 ---- */
 
 .post-content .table-wrapper {

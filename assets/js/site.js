@@ -68,12 +68,13 @@
     wrap.appendChild(table);
   });
 
-  /* ---------- YouTube: 単独の段落を動画枠にする ----------
+  /* ---------- 埋め込み: 単独の段落を動画・ツイートにする ----------
    * 本文に URL を1行置くだけで埋め込みになる。記事側に HTML や front matter を
    * 要求しない（→ adr/0002）ので、判定はここでやる。
-   * 置き換えるのは「段落が YouTube リンク1本だけ」のときに限る。文中のリンクや
+   * 置き換えるのは「段落がその URL 1本だけ」のときに限る。文中のリンクや
    * 末尾の出典リストは通常のリンクのまま残す。 */
   var YT_ID = /^[A-Za-z0-9_-]{11}$/;
+  var TWEET_ID = /^\d+$/;
 
   // URL から動画 ID を取り出す。YouTube でない/形が合わなければ null。
   function youtubeId(url) {
@@ -113,6 +114,26 @@
     return (+m[1] || 0) * 3600 + (+m[2] || 0) * 60 + (+m[3] || 0);
   }
 
+  // x.com / twitter.com の /<user>/status/<id> からツイート ID を取り出す。
+  // X でない・形が合わなければ null。
+  function tweetId(url) {
+    var u;
+    try {
+      u = new URL(url, location.href);
+    } catch (e) {
+      return null;
+    }
+    var host = u.hostname.replace(/^(?:www\.|mobile\.|m\.)/, '');
+    if (host !== 'x.com' && host !== 'twitter.com') return null;
+    var m = u.pathname.match(/^\/[^/]+\/status(?:es)?\/(\d+)/) ||
+      u.pathname.match(/^\/i\/web\/status\/(\d+)/);
+    return m && TWEET_ID.test(m[1]) ? m[1] : null;
+  }
+
+  // ツイート埋め込みは iframe と違って外部スクリプトが要る。対象があった記事だけ
+  // widgets.js を遅延ロードするため、いったん器だけ置いてここに溜める。
+  var tweets = [];
+
   Array.prototype.forEach.call(content.querySelectorAll('p'), function (p) {
     if (p.closest('figure')) return;
 
@@ -136,30 +157,75 @@
     }
 
     var id = youtubeId(url);
-    if (!id) return; // YouTube でない・ID の形が合わない → 素通し
+    if (id) {
+      var src = new URL('https://www.youtube-nocookie.com/embed/' + id);
+      var start = startSeconds(url);
+      if (start) src.searchParams.set('start', String(start));
 
-    var src = new URL('https://www.youtube-nocookie.com/embed/' + id);
-    var start = startSeconds(url);
-    if (start) src.searchParams.set('start', String(start));
+      var iframe = document.createElement('iframe');
+      iframe.src = src.href;
+      iframe.title = 'YouTube video player';
+      iframe.loading = 'lazy';
+      iframe.allow = 'accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.allowFullscreen = true;
 
-    var iframe = document.createElement('iframe');
-    iframe.src = src.href;
-    iframe.title = 'YouTube video player';
-    iframe.loading = 'lazy';
-    iframe.allow = 'accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-    iframe.allowFullscreen = true;
-
-    var fig = document.createElement('figure');
-    fig.className = 'video-embed';
-    fig.appendChild(iframe);
-    if (caption) {
-      var cap = document.createElement('figcaption');
-      cap.textContent = caption;
-      fig.appendChild(cap);
+      var fig = document.createElement('figure');
+      fig.className = 'video-embed';
+      fig.appendChild(iframe);
+      if (caption) {
+        var cap = document.createElement('figcaption');
+        cap.textContent = caption;
+        fig.appendChild(cap);
+      }
+      p.parentNode.replaceChild(fig, p);
+      return;
     }
-    p.parentNode.replaceChild(fig, p);
+
+    var tid = tweetId(url);
+    if (tid) {
+      // 器だけ置いて後でまとめて描画する（widgets.js の読み込みを1回で済ませる）。
+      var holder = document.createElement('div');
+      holder.className = 'tweet-embed';
+      p.parentNode.replaceChild(holder, p);
+      tweets.push({ el: holder, id: tid, url: url });
+      return;
+    }
+
+    // YouTube でも X でもない → 素通し
   });
+
+  /* ---------- ツイート: 対象があった記事だけ widgets.js を遅延ロード ----------
+   * ビルド時プラグインは GitHub Pages のセーフモードで使えないため、描画は
+   * クライアント側で行う。ツイートを含まない記事では読み込まない。 */
+  if (tweets.length) {
+    var s = document.createElement('script');
+    s.src = 'https://platform.twitter.com/widgets.js';
+    s.async = true;
+    s.charset = 'utf-8';
+    s.onload = function () {
+      if (!window.twttr || !window.twttr.ready) return;
+      window.twttr.ready(function (twttr) {
+        tweets.forEach(function (t) {
+          twttr.widgets
+            .createTweet(t.id, t.el, {
+              dnt: true, // Do Not Track（生 HTML の data-dnt="true" と同じ）
+              theme: 'light', // サイトはライト固定。端末のダーク設定に追従させない
+              align: 'center'
+            })
+            .then(function (result) {
+              if (result) return;
+              // 削除・非公開などで埋め込めないときは元の URL をリンクで残す。
+              var a = document.createElement('a');
+              a.href = t.url;
+              a.textContent = t.url;
+              t.el.appendChild(a);
+            });
+        });
+      });
+    };
+    document.head.appendChild(s);
+  }
 
   /* ---------- 目次 ----------
    * kramdown の auto_ids は日本語見出しから id を作れず空になることがあるので、
