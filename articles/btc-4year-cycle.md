@@ -2,7 +2,7 @@
 title: ビットコインの4年サイクルは本当か──再現確認の結果とその解釈
 description: Xで拡散する「4年で一巡する」チャートを自分のデータで引き直すと、周期は本物だが、上げ幅は毎回縮んでいた。
 date: 2026-07-24
-category: 暗号資産
+category: 価格分析
 status: done
 tags: [bitcoin, cycle, halving]
 ---
