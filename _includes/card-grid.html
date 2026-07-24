@@ -96,3 +96,50 @@
 
   <p class="tile-more"><a href="{{ '/market-reports/' | relative_url }}">すべてのレポートを見る →</a></p>
 </section>
+
+{%- comment -%}
+  ---- きのうのビットコイン（btc-news）: 見出しプレビュー付きタイル ----
+  レポートと違い card.png を持たない（dev/btc-news はテキストのみ生成）。サムネイルの代わりに、
+  その日の見出し（Markdown の `### 🏦 …` 行）を先頭 3 本だけプレビューして中身を見せる。
+  各日ページは front matter 無し（optional-front-matter → readme-index）なのでレポートと同じく
+  site.pages に載る。タイトルと見出しは p.content の「生 Markdown」から取る（head.html / レポート
+  タイルと同じ前提。`# ` や `### ` が残っている）。推測でパスを組まないので存在する日だけ並ぶ。
+{%- endcomment -%}
+{%- assign news_limit = 6 -%}
+{%- assign news_pages = site.pages
+      | where_exp: 'p', "p.url contains '/btc-news/'"
+      | where_exp: 'p', "p.url != '/btc-news/'"
+      | sort: 'url' | reverse -%}
+
+<section class="tile-section">
+  <h2 class="tile-heading"><a href="{{ '/btc-news/' | relative_url }}">きのうのビットコイン</a></h2>
+  <p class="tile-lead">きのうから今朝にかけてのビットコイン関連ニュースを、毎朝、出典つきで1ページにまとめています。</p>
+
+  <ul class="tile-grid tile-grid--news">
+    {%- for p in news_pages limit: news_limit -%}
+      {%- assign date = p.url | remove_first: '/btc-news/' | remove: '/' -%}
+      {%- assign title = date -%}
+      {%- assign first_line = p.content | strip | split: nl | first | strip -%}
+      {%- if first_line contains '# ' -%}
+        {%- assign title = first_line | remove_first: '#' | strip -%}
+      {%- endif -%}
+      {%- comment -%} 見出し行は `### ` を区切りに切り出す（`## ` は3ハッシュではないので当たらない）。 {%- endcomment -%}
+      {%- assign blocks = p.content | split: '### ' -%}
+      <li class="tile">
+        <a class="tile-link" href="{{ p.url | relative_url }}">
+          <span class="tile-body">
+            <span class="tile-title">{{ title }}</span>
+            <ul class="tile-headlines">
+              {%- for block in blocks offset: 1 limit: 3 -%}
+                <li>{{ block | split: nl | first | strip }}</li>
+              {%- endfor -%}
+            </ul>
+            <span class="tile-meta">{{ date }}</span>
+          </span>
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+
+  <p class="tile-more"><a href="{{ '/btc-news/' | relative_url }}">すべての「きのうのビットコイン」を見る →</a></p>
+</section>
