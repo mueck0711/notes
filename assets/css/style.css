@@ -878,6 +878,41 @@ img {
   text-decoration: underline;
 }
 
+/* きのうのビットコイン（btc-news）のタイル。card.png を持たないテキスト記事なので、
+ * サムネイルの代わりにその日の見出しを 3 本プレビューして中身を見せる。
+ * 見出し行頭の絵文字（🏦🇺🇸⚡…）をそのまま箇条書きの目印に使う。 */
+.tile-grid--news .tile-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.tile-headlines {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+}
+
+.tile-headlines li {
+  color: var(--text-muted-color);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  margin-top: 0.3rem;
+  overflow: hidden;
+  text-overflow: ellipsis;   /* 見出しは長いので 1 行で省略する */
+  white-space: nowrap;
+}
+
+.tile-headlines li:first-child {
+  margin-top: 0;
+}
+
+/* 日付はカード下端へ寄せて、見出し本数が違っても下辺が揃うようにする */
+.tile-grid--news .tile-meta {
+  margin-top: auto;
+  padding-top: 0.6rem;
+}
+
 /* ============================ 画面幅 ============================ */
 
 /* 目次を畳む */
