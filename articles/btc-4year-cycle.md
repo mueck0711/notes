@@ -11,7 +11,6 @@ tags: [bitcoin, cycle, halving]
 ビットコインの価格を4年ずつ4段に積み重ね、それぞれを「Bear（弱気）」「Pre-Bull（仕込み）」「1st Bull」「2nd Bull（天井）」の4局面に色分けしたものだ。
 2014年も、2018年も、2022年も、弱気で始まって、やがて天井へと駆け上がる。
 どの段も同じ形に見える。
-ある投稿には、短く「it's really that simple（それだけ単純な話だ）」と添えられていた。
 
 https://x.com/nobrainflip/status/2074958454540599469
 
