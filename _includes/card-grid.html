@@ -118,11 +118,12 @@
   <ul class="tile-grid tile-grid--news">
     {%- for p in news_pages limit: news_limit -%}
       {%- assign date = p.url | remove_first: '/btc-news/' | remove: '/' -%}
-      {%- assign title = date -%}
-      {%- assign first_line = p.content | strip | split: nl | first | strip -%}
-      {%- if first_line contains '# ' -%}
-        {%- assign title = first_line | remove_first: '#' | strip -%}
-      {%- endif -%}
+      {%- comment -%}
+        タイトルは日付（フォルダ名 YYYY-MM-DD）から MM/DD で組む。年は下のメタが持ち、
+        H1 の【2026/07/24】と重複するので落とす。系列名は固定なので直書きする。
+      {%- endcomment -%}
+      {%- assign dparts = date | split: '-' -%}
+      {%- assign title = '【' | append: dparts[1] | append: '/' | append: dparts[2] | append: '】きのうのビットコイン' -%}
       {%- comment -%} 見出し行は `### ` を区切りに切り出す（`## ` は3ハッシュではないので当たらない）。 {%- endcomment -%}
       {%- assign blocks = p.content | split: '### ' -%}
       <li class="tile">
