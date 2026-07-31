@@ -50,6 +50,13 @@ defaults:
       path: README.md
     values:
       layout: home
+      # トップだけ専用の OGP 画像・文言を当てる。head.html は page.image / page.description を
+      # 最優先で見るので、ここに置くだけで効く（head.html も README.md も無変更）。
+      # 既定画像 og_image は articles 一覧・旧レポート等に残る（消していない）。
+      # 画像の生成元は dev/notes-design/assets-src/og-home/。
+      image: /assets/img/og-home.png
+      image_alt: ビットコイン経済研究所 — 市場・経済・社会の側から、ビットコインを読む
+      description: 市場・経済・社会の側から、ビットコインを読む。論考、日次のマーケットレポート、注目ニュース。
   # 各フォルダの一覧ページは記事ではないので page に戻す（より長いパスが勝つ）。
   - scope:
       path: articles/README.md
