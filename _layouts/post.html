@@ -11,6 +11,12 @@ layout: default
       {%- endif %}
       {{ content }}
     </article>
+
+    {%- comment -%}
+      同カテゴリの関連記事。本文カード（.post-content）の外に置くのは home.html と同じ形。
+      記事以外（market-reports / btc-news）では include 側が自分で何も出さない。
+    {%- endcomment -%}
+    {%- include related-articles.html -%}
   </div>
 
   {%- comment -%} 目次は本文の見出しから site.js が組み立てる（見出しが無ければ自分で隠れる）。 {%- endcomment -%}

@@ -1,0 +1,49 @@
+{%- comment -%}
+  記事末尾の関連記事。同じ category の記事を新しい順に最大 4 件だけ並べる。
+
+  post.html は articles だけでなく market-reports / btc-news にも当たる（→ _config.yml の defaults）。
+  あちらは front matter を持たず category も無いので、page.category でゲートする。
+  同カテゴリが 0 件ならセクションごと出さない（他カテゴリで埋めない）。
+
+  画像は card-grid.html と同じ手法: URL からカードのパスを導出し、site.static_files で
+  「実在するものだけ」出す（推測でパスを組むと 404 の画像枠が出る。→ adr/0006）。
+  タイトルはカードに焼かれているので、カードがあるときは視覚的に隠す（tile-title--sr）。
+
+  置き場所は post.html の </article> の外側（.col.content 直下）。site.js の目次は
+  .post-content の中の h2/h3 だけを見るので、ここの「関連記事」は目次に載らない。
+{%- endcomment -%}
+{%- if page.category and page.url contains '/articles/' -%}
+  {%- assign this_url = page.url -%}
+  {%- assign related = site.pages
+        | where_exp: 'p', "p.url contains '/articles/'"
+        | where_exp: 'p', "p.url != '/articles/'"
+        | where_exp: 'p', "p.url != this_url"
+        | where: 'category', page.category
+        | sort: 'date' | reverse -%}
+  {%- if related.size > 0 -%}
+  <section class="tile-section tile-section--related">
+    <h2 class="tile-heading">関連記事</h2>
+    <p class="tile-lead">「{{ page.category }}」の記事</p>
+
+    <ul class="tile-grid tile-grid--article tile-grid--related">
+      {%- for p in related limit: 4 -%}
+        {%- assign card = p.url | replace: '.html', '.png' | replace: '/articles/', '/assets/img/articles/' -%}
+        {%- assign card_file = site.static_files | where: 'path', card | first -%}
+        <li class="tile">
+          <a class="tile-link" href="{{ p.url | relative_url }}">
+            {%- if card_file %}
+            <span class="tile-thumb tile-thumb--article">
+              <img src="{{ card | relative_url }}" alt="" loading="lazy" width="1200" height="630">
+            </span>
+            {%- endif %}
+            <span class="tile-body">
+              <span class="tile-title{% if card_file %} tile-title--sr{% endif %}">{{ p.title }}</span>
+              <span class="tile-meta">{{ p.date | date: '%Y-%m-%d' }}{% if p.category %} / {{ p.category }}{% endif %}</span>
+            </span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </section>
+  {%- endif -%}
+{%- endif -%}

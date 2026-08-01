@@ -915,6 +915,17 @@ img {
   padding-top: 0.6rem;
 }
 
+/* 記事末尾の関連記事（同カテゴリ）。トップのタイルをそのまま流用し、列数だけ 2 に固定する。
+ * auto-fill のままだと目次パネルの有無で本文カラムが約 914px / 約 1202px と変わり、
+ * 2 列と 3 列で揺れる。4 件を 2×2 で見せると決めたので固定列にする。 */
+.tile-section--related {
+  margin-top: 2rem;
+}
+
+.tile-grid--related {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 /* ============================ 画面幅 ============================ */
 
 /* 目次を畳む */
@@ -970,6 +981,14 @@ img {
   .post-content h2 {
     font-size: 1.25rem;
     margin-top: 2.25rem;
+  }
+}
+
+/* 関連記事だけの折り返し。スマホ幅で 2 列にすると 1 枚あたり 180px 程度になり、
+ * カードに焼かれたタイトルが読めない。ここだけ 1 列へ落とす。 */
+@media (max-width: 559px) {
+  .tile-grid--related {
+    grid-template-columns: 1fr;
   }
 }
 
