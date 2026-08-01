@@ -2,12 +2,15 @@
 <aside id="sidebar">
   <header class="profile-wrapper">
     {%- comment -%}
-      GitHub のプロフィール画像を直接参照する。プロフィールを差し替えると
-      こちらも自動で追従する（リポジトリに複製を置くと片方だけ古くなる）。
+      favicon と同じ BERI マークを出す（head.html が宣言しているのと同一ファイル）。
+      複製を作らず 1 枚を共有するので、ロゴを描き直せばタブとサイドバーが同時に変わる。
+      原本は dev/notes-design/assets-src/logo/favicon.svg。
+      .avatar 側の border-radius もマークの角丸に合わせてある（style.css）。
+      lazy は付けない——初期表示に入るので遅延させると読み込みが遅れるだけ。
     {%- endcomment -%}
     <a href="{{ '/' | relative_url }}" class="avatar">
-      <img src="https://github.com/{{ site.github_username }}.png?size=160"
-           alt="{{ site.github_username }}" width="160" height="160" loading="lazy">
+      <img src="{{ '/assets/img/favicon.svg' | relative_url }}"
+           alt="{{ site.title }}" width="96" height="96">
     </a>
     <a href="{{ '/' | relative_url }}" class="site-title">{{ site.title }}</a>
     <p class="site-subtitle">{{ site.tagline }}</p>

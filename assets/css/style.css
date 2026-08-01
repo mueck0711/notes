@@ -140,7 +140,9 @@ img {
   width: 6rem;
   height: 6rem;
   margin-bottom: 1rem;
-  border-radius: 50%;
+  /* favicon（BERI マーク）の角丸に合わせた値。原本 favicon.svg は 256 四方に rx="52" なので
+   * 52/256 ≒ 20%。ここを 50% に戻すと円マスクになり、タブのアイコンと輪郭が食い違う。 */
+  border-radius: 22%;
   overflow: hidden;
   background: var(--img-bg);
   box-shadow: 0 0 0 2px var(--avatar-border-color), var(--card-shadow);
