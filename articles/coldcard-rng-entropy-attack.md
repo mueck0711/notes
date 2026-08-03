@@ -1,7 +1,7 @@
 ---
 title: 乱数生成に問題があると、なぜビットコインを盗まれるのか
 description: Coldcard の乱数生成脆弱性で、利用者の鍵は実際にどう再現されたのか。総当たりの桁と、端末に触れずに完結する攻撃の手順をたどる。
-date: 2026-08-01
+date: 2026-08-03
 category: セキュリティ
 status: done
 tags: [bitcoin, coldcard, entropy, security]
