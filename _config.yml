@@ -22,9 +22,12 @@ google_analytics: G-B1FX4R34FF
 #   optional-front-matter … front matter の無い .md を描画する（BMA が生成する
 #                            market-reports/*/README.md は front matter を持たない）
 #   readme-index          … README.md をそのフォルダの index.html にする
+#   sitemap               … sitemap.xml を生成する（検索エンジンへの通知用）。
+#                           出力はビルド時生成なので .gitignore に穴を開ける必要はない。
 plugins:
   - jekyll-optional-front-matter
   - jekyll-readme-index
+  - jekyll-sitemap
 
 # front matter が無いファイルにもレイアウトを与えるための唯一の口。
 # 記事側に手を入れずに済むので、BMA の生成物をそのまま載せられる。

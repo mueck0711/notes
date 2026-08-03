@@ -10,12 +10,14 @@ source "https://rubygems.org"
 gem "jekyll", "~> 3.9.5"
 
 # 本番（github-pages）が既定で有効にするプラグインのうち、このサイトが
-# 依存している2つ。_config.yml の plugins と一致させること。
+# 依存している3つ。_config.yml の plugins と一致させること。
 #   optional-front-matter … front matter の無い README.md を描画する
 #   readme-index          … README.md をフォルダの index.html にする
+#   sitemap               … sitemap.xml を生成する
 group :jekyll_plugins do
   gem "jekyll-optional-front-matter", "~> 0.3"
   gem "jekyll-readme-index", "~> 0.3"
+  gem "jekyll-sitemap", "~> 1.4"
 end
 
 # _config.yml が kramdown の input: GFM を指定しているため必要。
