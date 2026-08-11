@@ -168,7 +168,13 @@
 
 {%- if scrwa_pages.size > 0 -%}
 <section class="tile-section">
-  <h2 class="tile-heading"><a href="{{ '/stablecoin-rwa/' | relative_url }}">ステーブルコイン &amp; RWA</a></h2>
+  {%- comment -%}
+    見出しに「[分室]」を付ける。sidebar の nav と同じ札で、**この節だけがビットコイン以外の
+    主題**だと分かるようにする（nav は区切り線でも分けているが、トップは節が縦に並ぶだけなので
+    札しか手が無い）。**系列名は省略しない**——nav が「SC&RWA」なのは 260px に収める都合で、
+    ここは他の見出し（マーケットレポート／きのうのビットコイン）と同じく全部書ける幅がある。
+  {%- endcomment -%}
+  <h2 class="tile-heading"><a href="{{ '/stablecoin-rwa/' | relative_url }}">[分室]ステーブルコイン &amp; RWA</a></h2>
   <p class="tile-lead">ステーブルコインと実物資産のトークン化（RWA）について、その週に出た一次情報を毎週月曜にまとめています。</p>
 
   <ul class="tile-grid tile-grid--news">
