@@ -926,6 +926,48 @@ img {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+/* 論考の一覧ページ（/articles/）のタイル。トップ・関連記事と同じ形に description を足した変種。
+ * 一覧だけは「どれを読むか」を選ぶ場なので、カードの絵とタイトルだけでは足りない。
+ * 3 行で切るのは、200 字を超える description が1枚だけタイルを伸ばすのを防ぐため（全文は
+ * DOM に残るので読み上げには届く）。
+ *
+ * 列は auto-fill のまま、下限だけ 260 → 300px へ上げる（description を読ませるため）。
+ * --related を固定列にしたのは目次パネルで本文カラムが 914px ⇄ 1202px と跳ぶからで
+ * （→ notes-design docs/lessons.md）、このページは目次を持たないので跳ばない。 */
+.tile-section--index {
+  margin-top: 2rem;
+}
+
+.tile-grid--index {
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+}
+
+/* description の行数がタイルごとに違うので、日付だけ下端へ寄せて下辺を揃える。
+ * .tile-grid--news と同じ狙いだが、あちらはサムネイルを持たないので .tile-body に
+ * height: 100% を掛けている。こちらはサムネイルがある＝その分はみ出すので flex: 1 を使う。 */
+.tile-grid--index .tile-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.tile-grid--index .tile-meta {
+  margin-top: auto;
+  padding-top: 0.6rem;
+}
+
+.tile-desc {
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  color: var(--text-muted-color);
+  display: -webkit-box;
+  font-size: 0.85rem;
+  line-clamp: 3;
+  line-height: 1.6;
+  margin-top: 0.5rem;
+  overflow: hidden;
+}
+
 /* ============================ 画面幅 ============================ */
 
 /* 目次を畳む */

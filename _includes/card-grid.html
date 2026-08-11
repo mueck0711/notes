@@ -14,7 +14,11 @@
     上部＝ヘッダー＋価格＋リードだけがサムネイルとして機能する）
 {%- endcomment -%}
 
-{%- comment -%} ---- 論考: 専用カードを持つ記事を新しい順に全部 ---- {%- endcomment -%}
+{%- comment -%}
+  ---- 論考: 新しい順に直近 N 件 ----
+  全件はカテゴリ別の /articles/ が持つ（→ _includes/article-index.html）。
+{%- endcomment -%}
+{%- assign article_limit = 6 -%}
 {%- assign articles = site.pages
       | where_exp: 'p', "p.url contains '/articles/'"
       | where_exp: 'p', "p.url != '/articles/'"
@@ -25,7 +29,7 @@
   <p class="tile-lead">ビットコインに関する考察記事です</p>
 
   <ul class="tile-grid tile-grid--article">
-    {%- for p in articles -%}
+    {%- for p in articles limit: article_limit -%}
       {%- assign card = p.url | replace: '.html', '.png' | replace: '/articles/', '/assets/img/articles/' -%}
       {%- assign card_file = site.static_files | where: 'path', card | first -%}
       <li class="tile">
@@ -48,6 +52,8 @@
       </li>
     {%- endfor -%}
   </ul>
+
+  <p class="tile-more"><a href="{{ '/articles/' | relative_url }}">すべての論考を見る →</a></p>
 </section>
 
 {%- comment -%}

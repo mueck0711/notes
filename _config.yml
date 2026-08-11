@@ -61,10 +61,11 @@ defaults:
       image_alt: ビットコイン経済研究所 — 市場・経済・社会の側から、ビットコインを読む
       description: 市場・経済・社会の側から、ビットコインを読む。論考、日次のマーケットレポート、注目ニュース。
   # 各フォルダの一覧ページは記事ではないので page に戻す（より長いパスが勝つ）。
+  # 論考だけはカテゴリ別のカードタイルを持つ専用レイアウト（→ dev/notes-design/docs/adr/0011）。
   - scope:
       path: articles/README.md
     values:
-      layout: page
+      layout: article-index
   - scope:
       path: market-reports/README.md
     values:

@@ -1,0 +1,59 @@
+{%- comment -%}
+  論考の一覧。カテゴリごとのカードタイル。**ここが記事一覧の唯一の生成機構。**
+
+  以前は公開ツールが articles/README.md へ平坦な Markdown の一覧を書き出していたが、
+  ビルド時の Liquid へ寄せた。articles/README.md は H1 とリード文だけを持つ（→ adr/0011）。
+  ここを外して Markdown 生成へ戻すと、また一覧が2系統に分かれる。
+
+  カテゴリの並び順 = そのカテゴリの最新記事が新しい順。sort も比較も要らない:
+  Jekyll の group_by は Ruby の Enumerable#group_by（Hash ＝ 挿入順を保つ）を each_with_object で
+  配列化しているので、**日付降順の配列を渡せばグループは初出順＝最新記事が新しい順で出る**。
+  items も降順のまま。**gem の実装依存**なので、この並びを変えたら push 後に本番を見る（→ adr/0004）。
+
+  画像は card-grid.html / related-articles.html と同じ手法: URL からカードのパスを導出し、
+  site.static_files で「実在するものだけ」出す（推測でパスを組むと 404 の画像枠。→ adr/0006）。
+  タイトルはカードに焼かれているので、カードがあるときは視覚的に隠す（tile-title--sr）。
+
+  **一覧だけ description を 3 行まで添える**（.tile-desc）。トップと関連記事のタイルは形を変えない
+  ——あちらは「最近のもの」を見せる場で、ここは「どれを読むか」を選ぶ場だから。
+  日付の隣にカテゴリは出さない（節の見出しが既に持っている）。
+{%- endcomment -%}
+{%- assign articles = site.pages
+      | where_exp: 'p', "p.url contains '/articles/'"
+      | where_exp: 'p', "p.url != '/articles/'"
+      | sort: 'date' | reverse -%}
+{%- assign groups = articles | group_by: 'category' -%}
+
+{%- for group in groups -%}
+  {%- comment -%}
+    category を持たない記事は group_by が "" にまとめる（nil.to_s）。見出しが空になるのを
+    避けて「その他」に寄せる（Liquid の default は空文字も拾う）。現状は該当0本。
+  {%- endcomment -%}
+  {%- assign category = group.name | default: 'その他' -%}
+  <section class="tile-section tile-section--index">
+    <h2 class="tile-heading">{{ category }}</h2>
+
+    <ul class="tile-grid tile-grid--article tile-grid--index">
+      {%- for p in group.items -%}
+        {%- assign card = p.url | replace: '.html', '.png' | replace: '/articles/', '/assets/img/articles/' -%}
+        {%- assign card_file = site.static_files | where: 'path', card | first -%}
+        <li class="tile">
+          <a class="tile-link" href="{{ p.url | relative_url }}">
+            {%- if card_file %}
+            <span class="tile-thumb tile-thumb--article">
+              <img src="{{ card | relative_url }}" alt="" loading="lazy" width="1200" height="630">
+            </span>
+            {%- endif %}
+            <span class="tile-body">
+              <span class="tile-title{% if card_file %} tile-title--sr{% endif %}">{{ p.title }}</span>
+              {%- if p.description %}
+              <span class="tile-desc">{{ p.description }}</span>
+              {%- endif %}
+              <span class="tile-meta">{{ p.date | date: '%Y-%m-%d' }}</span>
+            </span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </section>
+{%- endfor -%}
