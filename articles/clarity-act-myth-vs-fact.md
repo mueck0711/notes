@@ -2,7 +2,7 @@
 title: CLARITY法案の神話と事実
 description: 推進側の業界団体 CCI が、CLARITY法への批判を「神話」として並べ反論したファクトシートの抄訳。9つの反論を読み比べると、力の入り方の差が上院での争点を浮かび上がらせる。
 date: 2026-07-28
-category: 米国暗号資産立法
+category: 暗号資産規制
 status: final
 tags: [CLARITY法案, 暗号資産規制, DeFi, ステーブルコイン]
 ---

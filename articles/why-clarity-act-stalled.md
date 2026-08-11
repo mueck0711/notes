@@ -2,7 +2,7 @@
 title: CLARITY法案はなぜ止まっているのか
 description: 上院で停滞するCLARITY法案について、民主党の反対の力学と「先延ばしは国益を損なう」という反論への応答を一本にまとめた約4,300字の公開用統合版。
 date: 2026-07-31
-category: 米国暗号資産立法
+category: 暗号資産規制
 status: done
 tags: [CLARITY法案, 暗号資産規制, 民主党, 上院]
 ---

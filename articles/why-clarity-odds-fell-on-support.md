@@ -2,7 +2,7 @@
 title: 支持表明が下落させた CLARITY 法案成立の確率
 description: 2026年7月16日、マーク・ワーナー上院議員は CLARITY 法案を支持すると述べた。その翌日、予測市場の成立確率は35%へ下がった。
 date: 2026-07-20
-category: 米国暗号資産立法
+category: 暗号資産規制
 status: final
 ---
 
