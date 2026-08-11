@@ -21,17 +21,25 @@
 <meta name="description" content="{{ page.description | default: site.description }}">
 
 {%- comment -%}
-  **btc-news だけ OGP を出さない＝ X にカードを出さない。**
-  あのポストは数字4行＋絵文字ヘッドラインの高密度リストが本体で、末尾の URL は導線に過ぎない。
+  **ニュース系の 2 系統だけ OGP を出さない＝ X にカードを出さない。**
+  どちらのポストも絵文字ヘッドラインの高密度リストが本体で、末尾の URL は導線に過ぎない。
   カードが出ると、記事ごとに変わらない既定画像に視線が集まってリストから注意が逸れる
-  （btc-news はカード画像を生成しないので、必ず既定画像が当たる＝情報を足さない）。
+  （どちらもカード画像を生成しないので、必ず既定画像が当たる＝情報を足さない）。
   meta を一切出さなければ X はプレーンなリンクとして描く。→ dev/notes-design/docs/adr/0010
+
+    /btc-news        毎朝の「きのうのビットコイン」（2026-07-22 の初回投稿で判明）
+    /stablecoin-rwa  週次の「ステーブルコイン & RWA」（2026-08-11 の初回投稿で同じ形。
+                     dev/crypto-news/docs/adr/0012 の X 本文も同じ型なので、判断も同じ）
 
   description（上の meta）は残す。あれは検索向けで、カードとは別。
   カードを出したくなったら、この分岐を外すのではなく **専用の og.png を生成する**側に倒すこと
   （既定画像のまま分岐だけ戻すと、また同じ「情報の無いカード」に戻る）。
+
+  **X のカードキャッシュは URL 単位で数日残る。** 既に一度クロールされた URL は、
+  meta を落としても当面カードが出続ける（→ dev/publish-article/CONTEXT.md）。
+  効くのは次の回からで、既出の URL は待つしかない。
 {%- endcomment -%}
-{%- unless page.url contains '/btc-news' -%}
+{%- unless page.url contains '/btc-news' or page.url contains '/stablecoin-rwa' -%}
 {%- comment -%}
   OGP / Twitter Cards。X や Slack 等に URL を貼ったときのプレビューカード。
   画像の出し分け（上から優先）:
