@@ -48,6 +48,10 @@ defaults:
       path: btc-news
     values:
       layout: post
+  - scope:
+      path: stablecoin-rwa
+    values:
+      layout: post
   # トップはカードタイルを持つ専用レイアウト。
   - scope:
       path: README.md
@@ -72,6 +76,10 @@ defaults:
       layout: page
   - scope:
       path: btc-news/README.md
+    values:
+      layout: page
+  - scope:
+      path: stablecoin-rwa/README.md
     values:
       layout: page
 

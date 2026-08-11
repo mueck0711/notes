@@ -150,3 +150,54 @@
 
   <p class="tile-more"><a href="{{ '/btc-news/' | relative_url }}">すべての「きのうのビットコイン」を見る →</a></p>
 </section>
+
+{%- comment -%}
+  ---- 今週のステーブルコイン & RWA（crypto-news の stablecoin-rwa プロファイル）----
+  btc-news と同じ形（card.png を持たず、`### 🪙 …` の見出しを 3 本プレビュー）。
+  違いは並びの単位が「日」ではなく「週」であることだけなので、タイルの型は共有する。
+
+  **セクションごと `if` で囲む。** btc-news は公開開始と同時にこのタイルが入ったが、
+  こちらは launchd の初回実行（登録した週の月曜 8:00）まで 1 ページも存在しない。
+  空の見出しと「すべて見る →」だけが並ぶ状態をトップに出さない。
+{%- endcomment -%}
+{%- assign scrwa_limit = 6 -%}
+{%- assign scrwa_pages = site.pages
+      | where_exp: 'p', "p.url contains '/stablecoin-rwa/'"
+      | where_exp: 'p', "p.url != '/stablecoin-rwa/'"
+      | sort: 'url' | reverse -%}
+
+{%- if scrwa_pages.size > 0 -%}
+<section class="tile-section">
+  <h2 class="tile-heading"><a href="{{ '/stablecoin-rwa/' | relative_url }}">ステーブルコイン &amp; RWA</a></h2>
+  <p class="tile-lead">ステーブルコインと実物資産のトークン化（RWA）について、その週に出た一次情報を毎週月曜にまとめています。</p>
+
+  <ul class="tile-grid tile-grid--news">
+    {%- for p in scrwa_pages limit: scrwa_limit -%}
+      {%- assign date = p.url | remove_first: '/stablecoin-rwa/' | remove: '/' -%}
+      {%- comment -%}
+        タイトルは日付（フォルダ名 YYYY-MM-DD）から MM/DD で組む。年は下のメタが持ち、
+        H1 の【2026/08/17】と重複するので落とす。系列名は固定なので直書きする
+        （btc-news タイルと同じ理屈）。
+      {%- endcomment -%}
+      {%- assign dparts = date | split: '-' -%}
+      {%- assign title = '【' | append: dparts[1] | append: '/' | append: dparts[2] | append: '】今週のステーブルコイン & RWA' -%}
+      {%- assign blocks = p.content | split: '### ' -%}
+      <li class="tile">
+        <a class="tile-link" href="{{ p.url | relative_url }}">
+          <span class="tile-body">
+            <span class="tile-title">{{ title }}</span>
+            <ul class="tile-headlines">
+              {%- for block in blocks offset: 1 limit: 3 -%}
+                <li>{{ block | split: nl | first | strip }}</li>
+              {%- endfor -%}
+            </ul>
+            <span class="tile-meta">{{ date }}</span>
+          </span>
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+
+  <p class="tile-more"><a href="{{ '/stablecoin-rwa/' | relative_url }}">すべての「ステーブルコイン &amp; RWA」を見る →</a></p>
+</section>
+{%- endif -%}
