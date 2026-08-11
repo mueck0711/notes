@@ -35,9 +35,11 @@
   カードを出したくなったら、この分岐を外すのではなく **専用の og.png を生成する**側に倒すこと
   （既定画像のまま分岐だけ戻すと、また同じ「情報の無いカード」に戻る）。
 
-  **X のカードキャッシュは URL 単位で数日残る。** 既に一度クロールされた URL は、
-  meta を落としても当面カードが出続ける（→ dev/publish-article/CONTEXT.md）。
-  効くのは次の回からで、既出の URL は待つしかない。
+  **X のカードキャッシュは、一度カードを見せた URL には数日効き続ける。** meta を落としても
+  その URL では当面カードが出る（→ dev/publish-article/CONTEXT.md）。
+  **`?v=2` のようなクエリを足しても外れない**——2026-08-11 に実測した
+  （→ dev/notes-design/docs/lessons.md）。効くのは次の回＝まだクロールされていない
+  新しい URL からで、既出の URL は待つしかない。
 {%- endcomment -%}
 {%- unless page.url contains '/btc-news' or page.url contains '/stablecoin-rwa' -%}
 {%- comment -%}
