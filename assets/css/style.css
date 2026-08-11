@@ -219,6 +219,21 @@ img {
   background: var(--sidebar-hover-bg);
 }
 
+/* nav の系列を分ける区切り線。ビットコイン系（ホーム／論考／レポート／きのうの
+ * ビットコイン）と、隣の主題（ステーブルコイン & RWA）の境目に置く。
+ * 左右の inset は .nav-item a の padding（0.9rem）に揃えて、文字の始まりと線の端を
+ * 縦に合わせる——ここを 0 にすると線だけが項目より外へはみ出して見える。 */
+#sidebar .nav-divider {
+  height: 1px;
+  margin: 0.5rem 0.9rem 0.75rem;
+
+  /* --sidebar-border-color(#efefef) も --sidebar-hover-bg も、サイドバーの地
+   * (#f6f8fa) に対して明るすぎて線に見えない（前者はサイドバー右端の境界用で、
+   * 本文の白地に接する場所にしか使われていない）。文字色 --sidebar-muted-color を
+   * 薄めて、項目名より確実に淡く・地よりは確実に濃い、という関係にする。 */
+  background: rgb(84 84 84 / 20%);
+}
+
 #sidebar .nav-icon {
   width: 1.1rem;
   height: 1.1rem;
