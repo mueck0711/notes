@@ -2,6 +2,11 @@
 (function () {
   'use strict';
 
+  // 自分の src。リンクカードのデータ（assets/data/…）を baseurl 抜きで辿るのに使う。
+  // defer 付きで読まれるので currentScript はこの時点で有効。
+  var scriptEl = document.currentScript || document.querySelector('script[src$="site.js"]');
+  var scriptSrc = scriptEl ? scriptEl.src : '';
+
   var content = document.querySelector('.post-content');
 
   /* ---------- サイドバーの引き出し（狭い画面） ---------- */
@@ -75,6 +80,9 @@
    * 末尾の出典リストは通常のリンクのまま残す。 */
   var YT_ID = /^[A-Za-z0-9_-]{11}$/;
   var TWEET_ID = /^\d+$/;
+  // 段落まるごとが URL かどうか。**和文の段落は空白を含まない**ので、
+  // 「空白が無い＝URL」と見なしてはいけない（そう書くと本文がリンクに化ける）。
+  var BARE_URL = /^https?:\/\/[^\s<>]+$/;
 
   // URL から動画 ID を取り出す。YouTube でない/形が合わなければ null。
   function youtubeId(url) {
@@ -133,6 +141,8 @@
   // ツイート埋め込みは iframe と違って外部スクリプトが要る。対象があった記事だけ
   // widgets.js を遅延ロードするため、いったん器だけ置いてここに溜める。
   var tweets = [];
+  // 動画でもツイートでもない裸 URL。OGP のリンクカードにする候補（下でまとめて処理）。
+  var cards = [];
 
   Array.prototype.forEach.call(content.querySelectorAll('p'), function (p) {
     if (p.closest('figure')) return;
@@ -149,7 +159,7 @@
       if (text !== label) return;
       url = links[0].getAttribute('href');
       caption = label && label !== url ? label : '';
-    } else if (links.length === 0 && !/\s/.test(text)) {
+    } else if (links.length === 0 && BARE_URL.test(text)) {
       url = text;
       caption = '';
     } else {
@@ -192,7 +202,11 @@
       return;
     }
 
-    // YouTube でも X でもない → 素通し
+    // ここまで来たら動画でもツイートでもない。
+    // **裸 URL（リンク記法でないもの）だけ**をカード候補にする。ラベルの付いた
+    // [出典: TFTC](url) は素のリンクのまま残す——btc-news の出典行がこの形で、
+    // 対象に含めると毎朝のページが出典カードの列になる。→ adr/0013
+    if (!caption && BARE_URL.test(url)) cards.push({ p: p, url: url, linked: links.length === 1 });
   });
 
   /* ---------- ツイート: 対象があった記事だけ widgets.js を遅延ロード ----------
@@ -225,6 +239,98 @@
       });
     };
     document.head.appendChild(s);
+  }
+
+  /* ---------- リンクカード: 裸 URL を OGP のカードにする ----------
+   * メタデータは事前取得して assets/data/linkcards.json に持っている。ビルド時に
+   * 外部を取りに行けず（GitHub Pages はセーフモード）、表示時にブラウザから読むのも
+   * CORS で不可能なため。→ adr/0013
+   * データの無い URL（取得に失敗した・まだ取っていない）は素のリンクのまま残す。 */
+  if (cards.length && scriptSrc) {
+    // 裸テキストの URL は kramdown がリンクにしないので、カードにしないなら自分でリンクにする。
+    var linkify = function (c) {
+      if (c.linked) return;
+      var a = document.createElement('a');
+      a.href = c.url;
+      a.textContent = c.url;
+      c.p.textContent = '';
+      c.p.appendChild(a);
+    };
+
+    var buildCard = function (url, d, imgBase) {
+      var a = document.createElement('a');
+      a.className = 'link-card';
+      a.href = url;
+
+      var body = document.createElement('span');
+      body.className = 'link-card-body';
+
+      var title = document.createElement('span');
+      title.className = 'link-card-title';
+      title.textContent = d.title;
+      body.appendChild(title);
+
+      if (d.description) {
+        var desc = document.createElement('span');
+        desc.className = 'link-card-desc';
+        desc.textContent = d.description;
+        body.appendChild(desc);
+      }
+
+      var meta = document.createElement('span');
+      meta.className = 'link-card-meta';
+      meta.textContent = d.site_name ? d.site_name + ' · ' + d.domain : d.domain;
+      body.appendChild(meta);
+      a.appendChild(body);
+
+      if (d.image) {
+        var thumb = document.createElement('span');
+        thumb.className = 'link-card-thumb';
+        var img = document.createElement('img');
+        img.src = imgBase + encodeURIComponent(d.image);
+        // 中身はリンク先のタイトルと重複するので、既定は装飾扱い（alt=""）。
+        img.alt = d.image_alt || '';
+        img.loading = 'lazy';
+        // 相手サイトの画像を落としたものなので、消えていたら枠ごと畳む。
+        img.onerror = function () {
+          if (thumb.parentNode) thumb.parentNode.removeChild(thumb);
+        };
+        thumb.appendChild(img);
+        a.appendChild(thumb);
+      }
+      return a;
+    };
+
+    var dataUrl = '';
+    var imgBase = '';
+    try {
+      dataUrl = new URL('../data/linkcards.json', scriptSrc).href;
+      imgBase = new URL('../img/linkcards/', scriptSrc).href;
+    } catch (e) {
+      dataUrl = '';
+    }
+
+    var fallback = function () {
+      cards.forEach(linkify);
+    };
+
+    if (!dataUrl || typeof fetch !== 'function') {
+      fallback();
+    } else {
+      fetch(dataUrl, { credentials: 'omit' })
+        .then(function (res) {
+          return res.ok ? res.json() : null;
+        })
+        .then(function (map) {
+          if (!map) return fallback();
+          cards.forEach(function (c) {
+            var d = map[c.url];
+            if (!d || !d.title) return linkify(c);
+            c.p.parentNode.replaceChild(buildCard(c.url, d, imgBase), c.p);
+          });
+        })
+        .catch(fallback);
+    }
   }
 
   /* ---------- 目次 ----------

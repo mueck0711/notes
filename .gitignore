@@ -18,6 +18,15 @@
 # favicon の原本（ベクタ）。*.svg を全面許可はしない（どこの .svg でも入ってしまう）。
 !assets/img/*.svg
 
+# リンクカード（本文の裸 URL を OGP のカードにする → dev/notes-design/docs/adr/0013）。
+# データは JSON、サムネイルは相手サイトの og:image をそのまま落とすので拡張子が揃わない。
+# ここもパスで開ける（*.json / *.jpg を全面許可すると、どこのデータでも入ってしまう）。
+# .png は上の !*.png で既に通る。svg / gif は取得側が弾く。
+!assets/data/*.json
+!assets/img/linkcards/*.jpg
+!assets/img/linkcards/*.jpeg
+!assets/img/linkcards/*.webp
+
 # ローカル確認用のビルド定義。本番（ブランチビルド）はこれを読まない。
 !Gemfile
 

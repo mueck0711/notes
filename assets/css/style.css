@@ -564,6 +564,90 @@ img {
   text-align: center;
 }
 
+/* ---- リンクカード ----
+ * 本文に裸の URL を1行置くと、site.js が事前取得済みの OGP からカードに置き換える
+ * （データが無ければ素のリンクのまま → adr/0013）。トップのタイルと同じ質感
+ * （--card-bg / --card-shadow / 角丸 10px）にして、記事の中で浮かないようにする。
+ * サムネイルは 1.91:1（og:image の一般的な比率）を右に固定幅で置く。 */
+
+.post-content a.link-card {
+  align-items: stretch;
+  background: var(--card-bg);
+  border-radius: 10px;
+  box-shadow: var(--card-shadow);
+  color: inherit;
+  display: flex;
+  margin: 1.75rem 0;
+  overflow: hidden;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.post-content a.link-card:hover {
+  box-shadow: rgb(104 104 104 / 12%) 0 4px 12px 0, rgb(211 209 209 / 25%) 0 0 0 1px;
+  transform: translateY(-2px);
+}
+
+.link-card-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.35rem;
+  justify-content: center;
+  min-width: 0;                /* 長い URL・英文でカードを押し広げさせない */
+  padding: 0.9rem 1.1rem;
+}
+
+.link-card-title {
+  color: var(--heading-color);
+  font-family: Lato, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  overflow: hidden;
+  word-break: auto-phrase;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+}
+
+.post-content a.link-card:hover .link-card-title {
+  color: var(--link-color);
+}
+
+.link-card-desc {
+  color: var(--text-muted-color);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+}
+
+.link-card-meta {
+  color: var(--text-muted-color);
+  font-size: 0.8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link-card-thumb {
+  background: var(--img-bg);
+  border-left: 1px solid var(--main-border-color);
+  flex: 0 0 34%;
+  max-width: 240px;
+  overflow: hidden;
+}
+
+.link-card-thumb img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
 /* ---- 表 ---- */
 
 .post-content .table-wrapper {
@@ -1046,6 +1130,20 @@ img {
 @media (max-width: 559px) {
   .tile-grid--related {
     grid-template-columns: 1fr;
+  }
+
+  /* リンクカードは横並びをやめて画像を上に積む。34% の帯のままだと、
+   * スマホ幅ではサムネイルも本文も両方が読めない幅になる。 */
+  .post-content a.link-card {
+    flex-direction: column-reverse;
+  }
+
+  .link-card-thumb {
+    aspect-ratio: 1.91 / 1;
+    border-bottom: 1px solid var(--main-border-color);
+    border-left: 0;
+    flex: none;
+    max-width: none;
   }
 }
 
