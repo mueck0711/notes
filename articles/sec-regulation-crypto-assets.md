@@ -3,7 +3,7 @@ title: "米SEC、クリプト向け資金調達ルール「Regulation Crypto Ass
 description: SECが1933年証券法の登録義務に対する2つの免除と、トークンを投資契約から切り離すセーフハーバーを柱とする規則案を採択。パース委員の賛成声明を読み解く。
 date: 2026-08-19
 category: 暗号資産規制
-status: draft
+status: done
 tags: [SEC, 暗号資産規制, Regulation Crypto Assets, トークン発行]
 ---
 
