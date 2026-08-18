@@ -5,5 +5,13 @@
     "fetched": "2026-08-14",
     "image": "cryptohayes-substack-com-c3a8b4ec.jpg",
     "title": "Yen-quake"
+  },
+  "https://www.blackrock.com/us/financial-professionals/insights/re-underwriting-bitcoin": {
+    "description": "Explore BlackRock’s outlook on bitcoin, its recent pullback, market drivers and potential role as a long-term portfolio diversifier.",
+    "domain": "blackrock.com",
+    "fetched": "2026-08-19",
+    "image": "blackrock-com-e439b696.jpg",
+    "site_name": "BlackRock",
+    "title": "Re-Underwriting Bitcoin | BlackRock"
   }
 }
