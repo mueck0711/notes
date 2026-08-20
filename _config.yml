@@ -3,8 +3,9 @@ title: ビットコイン経済研究所
 title_en: Bitcoin Economics Research Institute
 tagline: ビットコインを市場・経済・社会の側から読む。論考と、日次のマーケットレポート
 description: ビットコインを市場・経済・社会の側から読む。論考と、日次のマーケットレポート。
-url: https://mueck0711.github.io
-baseurl: /notes
+url: https://bitcoin-economics.org
+# 独自ドメインはサイトをドメイン直下で配信するので baseurl は空 → docs/adr/S-0003
+baseurl: ""
 lang: ja
 
 github_username: mueck0711

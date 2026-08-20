@@ -9,7 +9,7 @@ tags: [bitcoin, coldcard, entropy, security]
 
 # 乱数生成に問題があると、なぜビットコインを盗まれるのか
 
-[前の記事](https://mueck0711.github.io/notes/articles/coldcard-rng-vulnerability.html)では、Coldcard が5年間、シードをハードウェア乱数ではなくソフトウェアの擬似乱数で作っていたこと、その結果として実効エントロピーが Mk3 で約40ビット、Mk4 世代で約72ビットまで落ちていたことを見ました。
+[前の記事](coldcard-rng-vulnerability.html)では、Coldcard が5年間、シードをハードウェア乱数ではなくソフトウェアの擬似乱数で作っていたこと、その結果として実効エントロピーが Mk3 で約40ビット、Mk4 世代で約72ビットまで落ちていたことを見ました。
 ここではその続きとして、エントロピーが低い状態が、どうやって資金の流出につながるのかを追います。
 
 ## 鍵を守っている二つの条件
