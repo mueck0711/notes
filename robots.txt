@@ -1,0 +1,7 @@
+# ビットコイン経済研究所 — https://bitcoin-economics.org/
+# 全体を公開する。sitemap.xml は jekyll-sitemap がビルド時に生成する。
+
+User-agent: *
+Allow: /
+
+Sitemap: https://bitcoin-economics.org/sitemap.xml
