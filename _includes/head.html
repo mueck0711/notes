@@ -114,8 +114,9 @@
 {%- endunless -%}
 
 {%- comment -%}
-  favicon。baseurl が /notes なので、ブラウザが暗黙に叩く /favicon.ico はこのリポジトリでは
-  なくユーザーサイト側の root を指す＝届かない。ここで明示的に宣言しないと効かない。
+  favicon。root に /favicon.ico を置いていないので、ブラウザが暗黙に叩く要求は 404 になる
+  （実測）。ここで明示的に宣言しないと効かない。独自ドメイン化で baseurl は空になったが、
+  この宣言は引き続き要る。
   原本と他サイズは dev/notes-design/assets-src/logo/。
 {%- endcomment -%}
 <link rel="icon" href="{{ '/assets/img/favicon.svg' | relative_url }}" type="image/svg+xml">
