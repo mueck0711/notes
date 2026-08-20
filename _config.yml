@@ -8,7 +8,7 @@ url: https://bitcoin-economics.org
 baseurl: ""
 lang: ja
 
-x_username: mueck0711
+x_username: BTC_Economics
 
 # card.png の無いページ（articles・トップ・一覧・旧レポート）の既定 og:image。
 og_image: /assets/img/og-default.png

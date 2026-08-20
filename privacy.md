@@ -40,4 +40,4 @@ Google アナリティクスは、この計測のために Cookie を使用し�
 
 ## お問い合わせ
 
-X（旧 Twitter）の [@mueck0711](https://x.com/mueck0711) までご連絡ください。
+X（旧 Twitter）の [@BTC_Economics](https://x.com/BTC_Economics) までご連絡ください。
