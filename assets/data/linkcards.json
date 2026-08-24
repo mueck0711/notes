@@ -1,4 +1,12 @@
 {
+  "https://coinpost.jp/?p=732866": {
+    "description": "米財務省が残高約9500億ドルの政府一般口座を長期国債買い戻しの原資に活用する可能性が浮上した。国債利回りの低下は仮想通貨相場を押し上げた要因の一つであり、今後の資金流入に影響し得る。",
+    "domain": "coinpost.jp",
+    "fetched": "2026-08-25",
+    "image": "coinpost-jp-cfc9e7bc.jpg",
+    "site_name": "CoinPost｜仮想通貨ビットコインニュース・投資情報",
+    "title": "米財務省、150兆円相当TGA口座を国債買い戻しの原資に利用検討 ビットコインに恩恵か"
+  },
   "https://cryptohayes.substack.com/p/yen-quake": {
     "description": "My internal dialogue in early March 2011: What’s my costume going to be for sevens this year? Can my body handle another back-to-back, Taiwan Spring Scream? Back to reality. I’m sitting at my desk at…",
     "domain": "cryptohayes.substack.com",
@@ -13,5 +21,21 @@
     "image": "blackrock-com-e439b696.jpg",
     "site_name": "BlackRock",
     "title": "Re-Underwriting Bitcoin | BlackRock"
+  },
+  "https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-69.html": {
+    "description": "Comptroller of the Currency Jonathan V. Gould today discussed the Office of the Comptroller of the Currency's (OCC) work under the leadership of President Donald J. Trump and U.S. Secretary of the Tre…",
+    "domain": "occ.gov",
+    "fetched": "2026-08-25",
+    "image": "occ-gov-bb422a48.jpg",
+    "image_alt": "Comptroller of the Currency",
+    "site_name": "OCC.gov",
+    "title": "Comptroller Gould Discusses Digital Asset Innovation, GENIUS Next Steps"
+  },
+  "https://www.sec.gov/newsroom/speeches-statements/peirce-statement-regulation-crypto-assets-081826": {
+    "description": "Commissioner Hester M. Peirce",
+    "domain": "sec.gov",
+    "fetched": "2026-08-25",
+    "site_name": "U.S. Securities and Exchange Commission",
+    "title": "Filling the Regulatory Tank: Regulation Crypto Assets Proposing Release"
   }
 }
