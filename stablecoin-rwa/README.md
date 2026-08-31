@@ -5,6 +5,7 @@
 ## 特集記事
 
 - **8月31日** — [ロビンフッドチェーンのミームコインは、RWAの需要を生み出せるのか](/articles/robinhood-chain-rwa-demand.html) <!-- 2026-08-31 -->
+- **8月31日** — [ロビンフッドチェーンのミームコインは、RWAの需要を生み出せるのか](/stablecoin-rwa/articles/robinhood-chain-rwa-demand.html) <!-- 2026-08-31 -->
 
 ## 2026年8月
 
