@@ -18,8 +18,15 @@
   ——あちらは「最近のもの」を見せる場で、ここは「どれを読むか」を選ぶ場だから。
   日付の隣にカテゴリは出さない（節の見出しが既に持っている）。
 {%- endcomment -%}
+{%- comment -%}
+  **`p.dir` で「/articles/ 直下」に限る。`p.url contains` にしない。**
+  部分一致にすると分室の特集記事（`/stablecoin-rwa/articles/…`）まで論考として拾う
+  ——あちらは週次の系列に属する記事で、論考の一覧にもホームの論考タイルにも出さない
+  （→ dev/crypto-news/docs/adr/0014）。Liquid に前方一致が無いので、
+  Jekyll の Page が持つ `dir`（そのページのフォルダ）で厳密に判定する。
+{%- endcomment -%}
 {%- assign articles = site.pages
-      | where_exp: 'p', "p.url contains '/articles/'"
+      | where_exp: 'p', "p.dir == '/articles/'"
       | where_exp: 'p', "p.url != '/articles/'"
       | sort: 'date' | reverse -%}
 {%- assign groups = articles | group_by: 'category' -%}

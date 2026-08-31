@@ -41,7 +41,23 @@
   （→ dev/notes-design/docs/lessons.md）。効くのは次の回＝まだクロールされていない
   新しい URL からで、既出の URL は待つしかない。
 {%- endcomment -%}
-{%- unless page.url contains '/btc-news' or page.url contains '/stablecoin-rwa' -%}
+{%- comment -%}
+  **例外: 分室の特集記事（`/stablecoin-rwa/articles/…`）はカードを出す**
+  （→ dev/crypto-news/docs/adr/0014）。上の分岐の理由は「専用のカードを持たないので
+  既定画像が当たり、情報を足さない」ことだった。特集記事は publish-article が生成した
+  1200x630 の専用カードを持つので、その理由が当てはまらない
+  ——**この節が「カードを出したくなったら専用の og.png を生成する側に倒せ」と
+  書いている、まさにその条件**。各回のページ（`/stablecoin-rwa/<date>/`）は
+  カードを持たないままなので、落とす扱いを続ける。
+{%- endcomment -%}
+{%- assign og_off = false -%}
+{%- if page.url contains '/btc-news' or page.url contains '/stablecoin-rwa' -%}
+  {%- assign og_off = true -%}
+{%- endif -%}
+{%- if page.dir == '/stablecoin-rwa/articles/' -%}
+  {%- assign og_off = false -%}
+{%- endif -%}
+{%- unless og_off -%}
 {%- comment -%}
   OGP / Twitter Cards。X や Slack 等に URL を貼ったときのプレビューカード。
   画像の出し分け（上から優先）:
@@ -64,7 +80,18 @@
   {%- assign og_file = site.static_files | where: 'path', og_path | first -%}
   {%- assign card_path = page.url | append: 'card.png' -%}
   {%- assign card_file = site.static_files | where: 'path', card_path | first -%}
-  {%- assign article_card = page.url | replace: '.html', '.png' | replace: '/articles/', '/assets/img/articles/' -%}
+  {%- comment -%}
+    カードの置き場は論考と分室で共通（`/assets/img/articles/<slug>.png`）→ adr/0014。
+    **置換を鎖にしない。** 置換先の `/assets/img/articles/` はそれ自身が `/articles/` を
+    含むので、`/stablecoin-rwa/articles/` を先に潰しても後段の `/articles/` が
+    もう一度当たり、`/assets/img/assets/img/articles/…` になる（2026-08-31 に実測）。
+    どちらの経路かを先に決めて、置換は1回だけ掛ける。
+  {%- endcomment -%}
+  {%- if page.dir == '/stablecoin-rwa/articles/' -%}
+    {%- assign article_card = page.url | replace: '.html', '.png' | replace: '/stablecoin-rwa/articles/', '/assets/img/articles/' -%}
+  {%- else -%}
+    {%- assign article_card = page.url | replace: '.html', '.png' | replace: '/articles/', '/assets/img/articles/' -%}
+  {%- endif -%}
   {%- assign article_file = site.static_files | where: 'path', article_card | first -%}
   {%- if og_file -%}
     {%- assign og_image_path = og_path -%}

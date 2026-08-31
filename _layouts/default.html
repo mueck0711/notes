@@ -25,7 +25,14 @@
       {%- if page.url != '/' -%}
       <nav class="breadcrumb" aria-label="パンくず">
         <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
-        {%- if page.url contains '/articles' %}
+        {%- comment -%}
+          **分室を `/articles` より先に見る。** 分室の特集記事は
+          `/stablecoin-rwa/articles/…` で `/articles` を含むので、順序を入れ替えると
+          「論考」と出る（→ dev/crypto-news/docs/adr/0014）。各回のページも同じ枝で拾う。
+        {%- endcomment -%}
+        {%- if page.url contains '/stablecoin-rwa' %}
+          <span class="sep">/</span><a href="{{ '/stablecoin-rwa/' | relative_url }}">ステーブルコイン &amp; RWA</a>
+        {%- elsif page.url contains '/articles' %}
           <span class="sep">/</span><a href="{{ '/articles/' | relative_url }}">論考</a>
         {%- elsif page.url contains '/market-reports' %}
           <span class="sep">/</span><a href="{{ '/market-reports/' | relative_url }}">マーケットレポート</a>

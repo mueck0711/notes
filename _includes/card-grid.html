@@ -19,8 +19,15 @@
   全件はカテゴリ別の /articles/ が持つ（→ _includes/article-index.html）。
 {%- endcomment -%}
 {%- assign article_limit = 6 -%}
+{%- comment -%}
+  **`p.dir` で「/articles/ 直下」に限る。`p.url contains` にしない。**
+  部分一致にすると分室の特集記事（`/stablecoin-rwa/articles/…`）まで論考として拾う
+  ——あちらは週次の系列に属する記事で、論考の一覧にもホームの論考タイルにも出さない
+  （→ dev/crypto-news/docs/adr/0014）。Liquid に前方一致が無いので、
+  Jekyll の Page が持つ `dir`（そのページのフォルダ）で厳密に判定する。
+{%- endcomment -%}
 {%- assign articles = site.pages
-      | where_exp: 'p', "p.url contains '/articles/'"
+      | where_exp: 'p', "p.dir == '/articles/'"
       | where_exp: 'p', "p.url != '/articles/'"
       | sort: 'date' | reverse -%}
 
@@ -161,9 +168,17 @@
   空の見出しと「すべて見る →」だけが並ぶ状態をトップに出さない。
 {%- endcomment -%}
 {%- assign scrwa_limit = 6 -%}
+{%- comment -%}
+  **各回（日付フォルダ）だけを拾う。** `/stablecoin-rwa/` の下には特集記事
+  （`/stablecoin-rwa/articles/…`）も入る（→ dev/crypto-news/docs/adr/0014）が、
+  このタイルは日付から `【MM/DD】` を組み `### ` の見出しを 3 本プレビューする作りなので、
+  特集記事が混じると**タイトルが `【/】` になり、プレビューも空になる**
+  （論考は `### ` を持たない）。特集記事への導線は索引ページの「特集記事」欄が持つ。
+{%- endcomment -%}
 {%- assign scrwa_pages = site.pages
       | where_exp: 'p', "p.url contains '/stablecoin-rwa/'"
       | where_exp: 'p', "p.url != '/stablecoin-rwa/'"
+      | where_exp: 'p', "p.dir != '/stablecoin-rwa/articles/'"
       | sort: 'url' | reverse -%}
 
 {%- if scrwa_pages.size > 0 -%}
