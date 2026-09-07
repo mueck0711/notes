@@ -21,6 +21,17 @@
 <meta name="description" content="{{ page.description | default: site.description }}">
 
 {%- comment -%}
+  canonical。**Google は og:url を正規化に使わない**ので、これが無いとディレクトリ URL
+  （`/market-reports/2026-09-05/`）と `.../index.html` が別々の URL として競合し、
+  Search Console の「重複」に落ちる（2026-09-07 に実測。トップ・4系統の一覧・日次の
+  すべてで両方 200 だった）。Jekyll では index.html の page.url がディレクトリ側を
+  指すので、この 1 行だけで畳める。
+  **`og_off` の unless の中に入れない**——OGP を出さない btc-news と分室の各回にも
+  canonical は要る（あちらは検索の対象で、落としているのは SNS カードだけ → adr/0010）。
+{%- endcomment -%}
+<link rel="canonical" href="{{ page.url | absolute_url }}">
+
+{%- comment -%}
   **ニュース系の 2 系統だけ OGP を出さない＝ X にカードを出さない。**
   どちらのポストも絵文字ヘッドラインの高密度リストが本体で、末尾の URL は導線に過ぎない。
   カードが出ると、記事ごとに変わらない既定画像に視線が集まってリストから注意が逸れる
