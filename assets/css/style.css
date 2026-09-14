@@ -539,6 +539,50 @@ img {
   word-break: auto-phrase;
 }
 
+/* ---- 図の注釈（BMA の日次レポート → dev/notes-design adr/0015）----
+ * 図の直後に続く「*図の見方: …*」の段落と、それに続く表・箇条書きを、図に付属する
+ * 注釈として小さく薄く描く。本文（読み）はその後ろの段落で、こちらは触らない。
+ * レポートの Markdown は HTML もクラスも持たない（adr/0002）ので、並びで拾う。
+ * 並びは BMA 側の約束（dev/BMA adr/0034: 図 → 見方 → 表 → 箇条書き → 読み）。
+ * site.js が <p><img></p> を <figure> に置き換えるので、置き換え前後の両方に当てる。
+ * 単位は em（≤849px で本文が 1.125rem に拡大されるのに追随させる）。
+ * 和文の斜体は擬似斜体で読みにくいので、小さく薄くする代わりに斜体は外す。 */
+
+.post-content :is(figure, p:has(> img:only-child)) + p:has(> em:only-child) {
+  margin: -0.75rem 0 0.75rem;
+  color: var(--text-muted-color);
+  font-size: 0.85em;
+  line-height: 1.6;
+  word-break: auto-phrase;
+}
+
+.post-content :is(figure, p:has(> img:only-child)) + p:has(> em:only-child) > em {
+  font-style: normal;
+}
+
+.post-content :is(figure, p:has(> img:only-child)) + p:has(> em:only-child) + ul,
+.post-content :is(figure, p:has(> img:only-child)) + p:has(> em:only-child) + :is(table, .table-wrapper) + ul {
+  margin: 0 0 1.5rem;
+  padding-left: 1.4rem;
+  color: var(--text-muted-color);
+  font-size: 0.85em;
+  line-height: 1.6;
+}
+
+.post-content :is(figure, p:has(> img:only-child)) + p:has(> em:only-child) + ul > li,
+.post-content :is(figure, p:has(> img:only-child)) + p:has(> em:only-child) + :is(table, .table-wrapper) + ul > li {
+  margin-bottom: 0.2rem;
+}
+
+.post-content :is(figure, p:has(> img:only-child)) + p:has(> em:only-child) + :is(table, .table-wrapper) {
+  margin: 0 0 0.75rem;
+}
+
+/* 注釈の表だけ（箇条書きの無い日）は、読みとの間を通常の段落間隔に戻す */
+.post-content :is(figure, p:has(> img:only-child)) + p:has(> em:only-child) + :is(table, .table-wrapper):not(:has(+ ul)) {
+  margin-bottom: 1.5rem;
+}
+
 /* ---- 動画（YouTube 埋め込み） ----
  * figure なので margin と figcaption は上の図版の指定がそのまま効く。
  * 縦横比はカードタイルと同じく aspect-ratio で持つ（padding-top ハックは使わない）。 */

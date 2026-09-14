@@ -43,9 +43,11 @@
   if (!content) return;
 
   /* ---------- 図版: alt をキャプションにする ----------
-   * レポートの図は ![説明](price.png) の形で、alt に説明が入っている。
+   * 2026-09-12 までのレポートの図は ![説明](price.png) の形で、alt に説明が入っている。
    * Chirpy 本家はキャプション用の段落を別に書かせるが、こちらは記事側に
-   * 手を入れられない（BMA が生成する）ので alt を流用する。 */
+   * 手を入れられない（BMA が生成する）ので alt を流用する。
+   * 2026-09-13 以降のレポートは alt が空で、図の見方は図の直後の斜体段落に書かれる。
+   * そちらは CSS（style.css「図の注釈」）が並びで拾うので、ここでは figure に包むだけ。 */
   Array.prototype.forEach.call(content.querySelectorAll('img'), function (img) {
     if (img.closest('figure') || img.closest('a')) return;
     var fig = document.createElement('figure');
