@@ -1191,11 +1191,54 @@ img {
   }
 }
 
+/* ---- 用語のポップアップ（日次レポート → dev/notes-design adr/0016）----
+   本文の「用語（＝定義）」を site.js が .term に置き換え、定義は #term-pop に出す。
+   下線はリンク（実線・リンク色）と見分けるため点線。 */
+.post-content .term {
+  border-bottom: 1px dotted var(--link-color);
+  border-radius: 2px;
+  cursor: help;
+  outline: none;
+}
+
+.post-content .term:focus-visible,
+.post-content .term.is-open {
+  background: rgb(0 86 178 / 10%);
+}
+
+#term-pop {
+  background: var(--card-bg);
+  border: 1px solid var(--btn-border-color);
+  border-radius: 6px;
+  box-shadow: rgb(104 104 104 / 12%) 0 4px 14px 0;
+  color: var(--text-color);
+  display: none;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  max-width: min(20em, calc(100vw - 32px));
+  padding: 0.55em 0.8em;
+  position: fixed;
+  z-index: 1000;
+}
+
+#term-pop.show {
+  display: block;
+}
+
+#term-pop b {
+  color: var(--text-muted-color);
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 0.15em;
+}
+
 @media print {
   #sidebar,
   #topbar,
   #panel-wrapper,
-  #back-to-top {
+  #back-to-top,
+  #term-pop {
     display: none;
   }
 

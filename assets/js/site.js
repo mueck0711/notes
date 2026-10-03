@@ -335,6 +335,107 @@
     }
   }
 
+  /* ---------- 用語: 「用語（＝定義）」を下線付きの用語＋ポップアップにする ----------
+     日次レポート（/market-reports/YYYY-MM-DD/）だけ。README は BMA が生成し HTML を書けない（adr/0002）
+     ので、本文の括弧書きをここで拾って置き換える（→ adr/0016）。JS が動かない所（RSS など）では
+     括弧書きのまま読める。用語は（＝の直前の、カタカナ・漢字・英数の連なり（英字どうしの空白と & は許す）。
+     「10月のFOMC（＝…）」なら「FOMC」だけを拾う。 */
+  if (/\/market-reports\/\d{4}-\d{2}-\d{2}\//.test(location.pathname)) {
+    var termRe = /((?:[A-Za-z0-9][A-Za-z0-9&＆\- ]*[A-Za-z0-9]|[A-Za-z0-9])?[ァ-ヶー一-龠々A-Za-z0-9]*)（＝((?:[^（）]|（[^（）]*）)*)）/g;
+    var walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT, null);
+    var textNodes = [];
+    while (walker.nextNode()) textNodes.push(walker.currentNode);
+    textNodes.forEach(function (node) {
+      var t = node.nodeValue;
+      if (t.indexOf('（＝') < 0) return;
+      if (node.parentNode.closest('h1, h2, h3, h4, code, pre, a')) return;
+      var frag = document.createDocumentFragment();
+      var last = 0;
+      var m;
+      termRe.lastIndex = 0;
+      while ((m = termRe.exec(t))) {
+        var raw = m[1];
+        var term = raw.replace(/^\s+/, '');
+        if (!term) continue;
+        frag.appendChild(document.createTextNode(t.slice(last, m.index) + raw.slice(0, raw.length - term.length)));
+        var span = document.createElement('span');
+        span.className = 'term';
+        span.tabIndex = 0;
+        span.setAttribute('role', 'button');
+        span.setAttribute('aria-label', term + '：' + m[2]);
+        span.setAttribute('data-def', m[2]);
+        span.textContent = term;
+        frag.appendChild(span);
+        last = m.index + m[0].length;
+      }
+      if (last === 0) return;
+      frag.appendChild(document.createTextNode(t.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+
+    if (content.querySelector('.term')) {
+      var pop = document.createElement('div');
+      pop.id = 'term-pop';
+      pop.setAttribute('role', 'tooltip');
+      document.body.appendChild(pop);
+      var openTerm = null;
+      var canHover = window.matchMedia('(hover: hover)').matches;
+
+      var showTerm = function (el) {
+        if (openTerm) openTerm.classList.remove('is-open');
+        openTerm = el;
+        el.classList.add('is-open');
+        pop.textContent = '';
+        var head = document.createElement('b');
+        head.textContent = el.textContent;
+        pop.appendChild(head);
+        pop.appendChild(document.createTextNode(el.getAttribute('data-def')));
+        pop.classList.add('show');
+        // 画面の端で切れないよう、幅を測ってから左右と上下を決める。
+        var r = el.getBoundingClientRect();
+        var left = Math.min(Math.max(16, r.left), window.innerWidth - pop.offsetWidth - 16);
+        var top = r.bottom + 6;
+        if (top + pop.offsetHeight > window.innerHeight - 8) top = r.top - pop.offsetHeight - 6;
+        pop.style.left = left + 'px';
+        pop.style.top = top + 'px';
+      };
+      var hideTerm = function () {
+        if (openTerm) openTerm.classList.remove('is-open');
+        openTerm = null;
+        pop.classList.remove('show');
+      };
+
+      document.addEventListener('click', function (e) {
+        var el = e.target.closest('.term');
+        if (el) {
+          if (openTerm === el) hideTerm();
+          else showTerm(el);
+        } else if (!e.target.closest('#term-pop')) {
+          hideTerm();
+        }
+      });
+      if (canHover) {
+        content.addEventListener('mouseover', function (e) {
+          var el = e.target.closest('.term');
+          if (el) showTerm(el);
+        });
+        content.addEventListener('mouseout', function (e) {
+          var el = e.target.closest('.term');
+          if (el && el === openTerm) hideTerm();
+        });
+      }
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') hideTerm();
+        var a = document.activeElement;
+        if ((e.key === 'Enter' || e.key === ' ') && a && a.classList.contains('term')) {
+          e.preventDefault();
+          showTerm(a);
+        }
+      });
+      window.addEventListener('scroll', hideTerm, { passive: true });
+    }
+  }
+
   /* ---------- 目次 ----------
    * kramdown の auto_ids は日本語見出しから id を作れず空になることがあるので、
    * 無ければこちらで振る。 */
