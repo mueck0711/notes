@@ -49,7 +49,8 @@
    * 2026-09-13 以降のレポートは alt が空で、図の見方は図の直後の斜体段落に書かれる。
    * そちらは CSS（style.css「図の注釈」）が並びで拾うので、ここでは figure に包むだけ。 */
   Array.prototype.forEach.call(content.querySelectorAll('img'), function (img) {
-    if (img.closest('figure') || img.closest('a')) return;
+    // .portrait は人物ページの顔写真（_includes/portrait.html）。図版ではないので包まない。
+    if (img.closest('figure') || img.closest('a') || img.classList.contains('portrait')) return;
     var fig = document.createElement('figure');
     img.parentNode.insertBefore(fig, img);
     fig.appendChild(img);

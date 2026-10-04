@@ -1,0 +1,61 @@
+---
+layout: default
+---
+{%- comment -%}
+  論客たちの一覧（/people/）専用。people/README.md（front matter 無し。jekyll-readme-index 経由）の
+  H1 とリード文を出したあと、人物カードを差し込む。article-index.html と同じ形
+  （→ dev/notes-design/docs/adr/0017）。
+
+  並び順 = その人の最新記事が新しい順。記事を日付降順に舐めて、初めて出てきた person から
+  順に積む（Liquid に「計算した値で sort」が無いため）。記事がまだ無い人は末尾に回す。
+{%- endcomment -%}
+{%- assign person_articles = site.pages
+      | where_exp: 'p', "p.dir == '/articles/'"
+      | where_exp: 'p', "p.person != nil"
+      | sort: 'date' | reverse -%}
+{%- assign order = '' -%}
+{%- for a in person_articles -%}
+  {%- assign key = '|' | append: a.person | append: '|' -%}
+  {%- unless order contains key -%}{%- assign order = order | append: key -%}{%- endunless -%}
+{%- endfor -%}
+{%- for d in site.people -%}
+  {%- assign key = '|' | append: d.slug | append: '|' -%}
+  {%- unless order contains key -%}{%- assign order = order | append: key -%}{%- endunless -%}
+{%- endfor -%}
+{%- assign slugs = order | split: '|' -%}
+
+<div class="row">
+  <div class="col content">
+    <article class="post-content page-content">
+      {{ content }}
+    </article>
+
+    <section class="tile-section tile-section--index">
+      <ul class="people-grid">
+        {%- for s in slugs -%}
+          {%- if s == '' -%}{%- continue -%}{%- endif -%}
+          {%- assign d = site.people | where: 'slug', s | first -%}
+          {%- unless d -%}{%- continue -%}{%- endunless -%}
+          {%- assign mine = person_articles | where: 'person', s -%}
+          <li class="person-card">
+            <a href="{{ d.url | relative_url }}">
+              {%- include portrait.html person=d size=112 -%}
+              <span class="person-name">{{ d.title }}</span>
+              <span class="person-role">{{ d.role }}</span>
+              {%- if d.line %}
+              <span class="person-line">{{ d.line }}</span>
+              {%- endif %}
+              <span class="person-meta">
+                {%- if mine.size > 0 -%}
+                  記事 {{ mine.size }}本 · 最新 {{ mine.first.date | date: '%Y-%m-%d' }}
+                {%- else -%}
+                  記事はまだありません
+                {%- endif -%}
+              </span>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </section>
+  </div>
+</div>

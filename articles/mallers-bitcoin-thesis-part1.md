@@ -3,6 +3,7 @@ title: Jack Mallers は何を主張してきたか（前編）
 description: Strike 創業者の主張を、1971年から始まる診断、世代の体験と道徳の語彙で語る話法、希少性と「二番手は存在しない」、流動性の先行指標として読むマクロ観の順に追う。「貯めて、売らずに借りて、使う」への転換と、ETF とトレジャリー企業の間に第三の形を置いた Twenty One Capital の構想が2026年7月に破談するまで、一巡を通して読む。
 date: 2026-09-08
 category: ビットコイン論
+person: mallers
 status: draft
 tags: [bitcoin, Jack Mallers, Strike, Twenty One Capital, 貨幣論]
 ---

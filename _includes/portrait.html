@@ -1,0 +1,13 @@
+{%- comment -%}
+  人物の顔。写真（_people/<slug>.md の photo）が無ければイニシャルの「文字の肖像」に倒れる。
+  呼び方: {% include portrait.html person=p size=112 %}
+  写真を載せてよい条件は dev/notes-design/assets-src/people/README.md（X の画像は使わない）。
+  alt は空にしている——隣に必ず名前が出るので、読み上げで名前が二重になるのを避ける。
+  site.js は本文中の img を図版に包むが、.portrait は対象から外してある。
+{%- endcomment -%}
+{%- assign who = include.person -%}
+{%- if who.photo -%}
+<img class="portrait" src="{{ who.photo | relative_url }}" alt="" width="{{ include.size }}" height="{{ include.size }}" loading="lazy" style="--portrait-size: {{ include.size }}px">
+{%- else -%}
+<span class="portrait portrait--initials" aria-hidden="true" style="--portrait-size: {{ include.size }}px">{{ who.initials }}</span>
+{%- endif -%}

@@ -38,12 +38,32 @@
           <span>ホーム</span>
         </a>
       </li>
-      <li class="nav-item{% if url contains '/articles' and in_series == false %} active{% endif %}">
+      {%- comment -%}
+        人物記事（front matter に person を持つ）は URL が /articles/ のままでも
+        「論客たち」側を active にする（→ dev/notes-design/docs/adr/0017）。
+      {%- endcomment -%}
+      {%- assign in_people = false -%}
+      {%- if url contains '/people/' or page.person -%}
+        {%- assign in_people = true -%}
+      {%- endif -%}
+      <li class="nav-item{% if url contains '/articles' and in_series == false and in_people == false %} active{% endif %}">
         <a href="{{ '/articles/' | relative_url }}">
           <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M4 4h9a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4zm16 0h-2a3 3 0 0 0-1 .17V18a2 2 0 0 1 2 2h1a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1z"/>
           </svg>
           <span>論考</span>
+        </a>
+      </li>
+      {%- comment -%}
+        論客たち。アイコンは大小2人の胸像——論考の「本」と並べて「人」と読めるもの。
+        他の nav-icon と同じく塗り(fill)だけで描く。
+      {%- endcomment -%}
+      <li class="nav-item{% if in_people %} active{% endif %}">
+        <a href="{{ '/people/' | relative_url }}">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm8 0a3 3 0 1 1 0-6 3 3 0 0 1 0 6zM1 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1zm17 0v-1c0-1.7-.6-3.3-1.6-4.5A5 5 0 0 1 23 20v1z"/>
+          </svg>
+          <span>論客たち</span>
         </a>
       </li>
       <li class="nav-item{% if url contains '/market-reports' %} active{% endif %}">

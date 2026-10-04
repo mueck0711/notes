@@ -29,6 +29,9 @@
 !assets/img/linkcards/*.jpeg
 !assets/img/linkcards/*.webp
 
+# 論客たちの顔写真（生成元は dev/notes-design/assets-src/people/ → dev/notes-design/docs/adr/0017）。
+!assets/img/people/*.jpg
+
 # ローカル確認用のビルド定義。本番（ブランチビルド）はこれを読まない。
 !Gemfile
 

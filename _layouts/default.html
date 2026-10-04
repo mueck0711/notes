@@ -30,8 +30,19 @@
           `/stablecoin-rwa/articles/…` で `/articles` を含むので、順序を入れ替えると
           「論考」と出る（→ dev/crypto-news/docs/adr/0014）。各回のページも同じ枝で拾う。
         {%- endcomment -%}
+        {%- comment -%}
+          **人物記事は `/articles` より先に見る。** URL は /articles/… のままだが、
+          論考からは外して論客たちに並べている（→ dev/notes-design/docs/adr/0017）。
+          人物記事では、その人の人物ページを3段目に置く。
+        {%- endcomment -%}
         {%- if page.url contains '/stablecoin-rwa' %}
           <span class="sep">/</span><a href="{{ '/stablecoin-rwa/' | relative_url }}">ステーブルコイン &amp; RWA</a>
+        {%- elsif page.person %}
+          {%- assign who = site.people | where: 'slug', page.person | first %}
+          <span class="sep">/</span><a href="{{ '/people/' | relative_url }}">論客たち</a>
+          {%- if who %}<span class="sep">/</span><a href="{{ who.url | relative_url }}">{{ who.title }}</a>{% endif %}
+        {%- elsif page.url contains '/people/' %}
+          <span class="sep">/</span><a href="{{ '/people/' | relative_url }}">論客たち</a>
         {%- elsif page.url contains '/articles' %}
           <span class="sep">/</span><a href="{{ '/articles/' | relative_url }}">論考</a>
         {%- elsif page.url contains '/market-reports' %}

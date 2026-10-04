@@ -3,6 +3,7 @@ title: Lyn Alden は何を主張してきたか
 description: 『Broken Money』の「貨幣は台帳」と電信が開けた決済の隙間から、Proof of Work、決済層と上の層、貯めると使うの順序、流動性の計器、財政支配の「止まらない列車」、四年周期の終わりまで。2026年に自ら恒久資本会社を立ち上げるまでの主張を、本人の論考と発言を引きながら通して読む。
 date: 2026-09-13
 category: ビットコイン論
+person: alden
 status: draft
 tags: [bitcoin, Lyn Alden, Broken Money, 財政支配, 貨幣論]
 ---

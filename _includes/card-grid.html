@@ -25,10 +25,12 @@
   ——あちらは週次の系列に属する記事で、論考の一覧にもホームの論考タイルにも出さない
   （→ dev/crypto-news/docs/adr/0014）。Liquid に前方一致が無いので、
   Jekyll の Page が持つ `dir`（そのページのフォルダ）で厳密に判定する。
+  人物記事（`person` を持つ）は論考から外す（→ dev/notes-design/docs/adr/0017）。
 {%- endcomment -%}
 {%- assign articles = site.pages
       | where_exp: 'p', "p.dir == '/articles/'"
       | where_exp: 'p', "p.url != '/articles/'"
+      | where_exp: 'p', "p.person == nil"
       | sort: 'date' | reverse -%}
 
 <section class="tile-section">

@@ -3,6 +3,7 @@ title: Luke Gromen は何を主張してきたか
 description: 米国の財政の算術、外国が国債を買わなくなった経緯、ゴールドという中立的準備資産、そこに後から加わった「新しい石油」としてのビットコイン。2025年末に保有の大半を売ってなお強気を崩さない理由まで、本人の発言を引きながら通して読む。
 date: 2026-10-04
 category: ビットコイン論
+person: gromen
 status: draft
 tags: [bitcoin, Luke Gromen, FFTT, 財政支配, ゴールド, 準備資産]
 ---

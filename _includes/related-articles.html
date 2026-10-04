@@ -12,18 +12,33 @@
   置き場所は post.html の </article> の外側（.col.content 直下）。site.js の目次は
   .post-content の中の h2/h3 だけを見るので、ここの「関連記事」は目次に載らない。
 {%- endcomment -%}
+{%- comment -%}
+  人物記事（`person` を持つ）は論考と混ぜない（→ dev/notes-design/docs/adr/0017）。
+  人物記事の末尾には他の人物記事を、それ以外の記事の末尾には同カテゴリの論考だけを出す。
+{%- endcomment -%}
 {%- if page.category and page.url contains '/articles/' -%}
   {%- assign this_url = page.url -%}
-  {%- assign related = site.pages
-        | where_exp: 'p', "p.url contains '/articles/'"
-        | where_exp: 'p', "p.url != '/articles/'"
-        | where_exp: 'p', "p.url != this_url"
-        | where: 'category', page.category
-        | sort: 'date' | reverse -%}
+  {%- if page.person -%}
+    {%- assign related = site.pages
+          | where_exp: 'p', "p.dir == '/articles/'"
+          | where_exp: 'p', "p.person != nil"
+          | where_exp: 'p', "p.url != this_url"
+          | sort: 'date' | reverse -%}
+    {%- assign related_lead = '「論客たち」の記事' -%}
+  {%- else -%}
+    {%- assign related = site.pages
+          | where_exp: 'p', "p.url contains '/articles/'"
+          | where_exp: 'p', "p.url != '/articles/'"
+          | where_exp: 'p', "p.url != this_url"
+          | where_exp: 'p', "p.person == nil"
+          | where: 'category', page.category
+          | sort: 'date' | reverse -%}
+    {%- assign related_lead = '「' | append: page.category | append: '」の記事' -%}
+  {%- endif -%}
   {%- if related.size > 0 -%}
   <section class="tile-section tile-section--related">
     <h2 class="tile-heading">関連記事</h2>
-    <p class="tile-lead">「{{ page.category }}」の記事</p>
+    <p class="tile-lead">{{ related_lead }}</p>
 
     <ul class="tile-grid tile-grid--article tile-grid--related">
       {%- for p in related limit: 4 -%}
@@ -38,7 +53,7 @@
             {%- endif %}
             <span class="tile-body">
               <span class="tile-title{% if card_file %} tile-title--sr{% endif %}">{{ p.title }}</span>
-              <span class="tile-meta">{{ p.date | date: '%Y-%m-%d' }}{% if p.category %} / {{ p.category }}{% endif %}</span>
+              <span class="tile-meta">{{ p.date | date: '%Y-%m-%d' }}{% if p.person %}{% assign who = site.people | where: 'slug', p.person | first %}{% if who %} / {{ who.title }}{% endif %}{% elsif p.category %} / {{ p.category }}{% endif %}</span>
             </span>
           </a>
         </li>

@@ -29,6 +29,14 @@ plugins:
   - jekyll-readme-index
   - jekyll-sitemap
 
+# 論客たち（/people/）の人物データ。1人1ファイルで _people/<slug>.md に置き、
+# /people/<slug>/ に人物ページを出す。記事は動かさず、記事側の front matter の
+# person: <slug> で紐づける（→ dev/notes-design/docs/adr/0017）。
+collections:
+  people:
+    output: true
+    permalink: /people/:name/
+
 # front matter が無いファイルにもレイアウトを与えるための唯一の口。
 # 記事側に手を入れずに済むので、BMA の生成物をそのまま載せられる。
 defaults:
@@ -70,6 +78,16 @@ defaults:
       path: articles/README.md
     values:
       layout: article-index
+  # 論客たちの一覧と人物ページ（→ dev/notes-design/docs/adr/0017）。
+  - scope:
+      path: people/README.md
+    values:
+      layout: people-index
+  - scope:
+      path: _people
+      type: people
+    values:
+      layout: person
   - scope:
       path: market-reports/README.md
     values:

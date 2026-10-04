@@ -3,6 +3,7 @@ title: Jack Dorsey は何を主張してきたか
 description: 2018年の「インターネットは単一の通貨を持つ」から、Web3 批判とステーブルコインへの譲歩、Twitter が会社になったことへの後悔と Nostr、「価値保存だけなら無関係化して失敗する」という決済論、採掘の分散とエネルギー、Bitkey と信託銀行の申請、100万ドル予想、2026年の人員削減まで。本人の発言と Block の実装を引きながら通して読む。
 date: 2026-09-16
 category: ビットコイン論
+person: dorsey
 status: done
 tags: [bitcoin, Jack Dorsey, Block, Nostr, Lightning, 決済]
 ---

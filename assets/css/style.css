@@ -1233,6 +1233,221 @@ img {
   margin-bottom: 0.15em;
 }
 
+/* ---------- 論客たち（/people/ と人物ページ → dev/notes-design/docs/adr/0017） ---------- */
+
+/* 顔。写真もイニシャルも同じ丸に収める。大きさは include が --portrait-size で渡す。 */
+.portrait {
+  width: var(--portrait-size, 112px);
+  height: var(--portrait-size, 112px);
+  flex: none;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--img-bg);
+  box-shadow: 0 0 0 4px var(--card-bg), 0 0 0 5px var(--main-border-color);
+}
+
+/* 文字の肖像（写真が無い人）。写真の列に混ざっても浮かないよう、暗めの無地に白抜き。 */
+.portrait--initials {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #3a3f47;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-size: calc(var(--portrait-size, 112px) * 0.32);
+  user-select: none;
+}
+
+.people-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+.person-card {
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  border-radius: 0.75rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.person-card:hover {
+  transform: translateY(-2px);
+  box-shadow: rgb(104 104 104 / 12%) 0 6px 16px 0, rgb(211 209 209 / 25%) 0 0 0 1px;
+}
+
+.person-card a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 1.75rem 1.25rem 1.4rem;
+  text-align: center;
+  color: inherit;
+  text-decoration: none;
+}
+
+.person-name {
+  margin: 1rem 0 0.2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--heading-color);
+}
+
+.person-role {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-muted-color);
+}
+
+.person-card .person-role {
+  min-height: 2.4em;
+}
+
+.person-line {
+  margin-top: 0.9rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+.person-line::before {
+  content: '「';
+}
+
+.person-line::after {
+  content: '」';
+}
+
+.person-meta {
+  margin-top: auto;
+  padding-top: 1rem;
+  font-size: 0.75rem;
+  color: var(--text-muted-color);
+}
+
+/* 人物ページの頭 */
+.person-hero {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin: 0.5rem 0 2rem;
+}
+
+.post-content .person-hero h1 {
+  margin: 0 0 0.35rem;
+}
+
+.post-content .person-hero .person-role {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.post-content .person-x {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.9rem;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--btn-border-color);
+  border-radius: 999px;
+  background: var(--button-bg);
+  font-size: 0.8rem;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.post-content .person-x svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+/* 主張の骨格。全員同じ3項目なので、ラベル列の幅を揃えて表として読ませる。 */
+.thesis {
+  display: grid;
+  grid-template-columns: 9em 1fr;
+  gap: 0.85rem 1.25rem;
+  margin: 0 0 0.5rem;
+  padding: 1.25rem 1.4rem;
+  background: var(--tb-odd-bg);
+  border: 1px solid var(--tb-border-color);
+  border-radius: 0.6rem;
+}
+
+.thesis dt {
+  padding-top: 0.2rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted-color);
+}
+
+.thesis dd {
+  margin: 0;
+  line-height: 1.75;
+}
+
+.post-content .photo-credit {
+  margin-top: 1.75rem;
+  font-size: 0.72rem;
+  color: var(--text-muted-color);
+}
+
+.people-others {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.people-others a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 92px;
+  font-size: 0.75rem;
+  text-align: center;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.people-others .portrait {
+  box-shadow: 0 0 0 3px var(--card-bg), 0 0 0 4px var(--main-border-color);
+}
+
+@media (max-width: 640px) {
+  .person-hero {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  /* 大きさは include が style 属性の --portrait-size で渡すので、変数ではなく寸法を直接上書きする。 */
+  .person-hero .portrait {
+    width: 128px;
+    height: 128px;
+    font-size: 41px;
+  }
+
+  .thesis {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+
+  .thesis dd {
+    margin-bottom: 0.75rem;
+  }
+}
+
 @media print {
   #sidebar,
   #topbar,

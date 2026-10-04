@@ -3,6 +3,7 @@ title: Jack Mallers は何を主張してきたか（後編）
 description: Mallers がゴールドとの比較で立ててきた論を二層に分けて読む。第一層「ビットコインはゴールドより良い貨幣だ」の五つの論点を強弱に分け、2025〜26年のゴールド急騰局面で上に乗せた第二層「ゴールドは流動性を先回りし、ビットコインは反応する」が、2025年12月の流動性の転換点で一度外れていることまで追う。
 date: 2026-09-08
 category: ビットコイン論
+person: mallers
 status: draft
 tags: [bitcoin, Jack Mallers, ゴールド, Peter Schiff, 貨幣論]
 ---

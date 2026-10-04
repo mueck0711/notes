@@ -3,6 +3,7 @@ title: Saifedean Ammous は何を主張してきたか
 description: 『The Bitcoin Standard』の「ハードマネーがイージーマネーを駆逐する」から、時間選好と文明、1914年と戦争の資金、史上最もハードな貨幣、決済層としてのビットコイン、法定通貨を技術として読む『The Fiat Standard』、Saylor との利回り論争、書評の批判と Taleb の序文撤回、2025年の新刊まで。本人の文章と発言を引きながら通して読む。
 date: 2026-09-13
 category: ビットコイン論
+person: ammous
 status: done
 tags: [bitcoin, Saifedean Ammous, The Bitcoin Standard, オーストリア学派, 貨幣論]
 ---

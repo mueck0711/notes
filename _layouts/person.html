@@ -1,0 +1,94 @@
+---
+layout: default
+---
+{%- comment -%}
+  人物ページ（/people/<slug>/）。データは _people/<slug>.md（collection）。本文は経歴。
+  記事は動かさない（URL は /articles/… のまま）。記事側の front matter の person: <slug> で
+  紐づける（→ dev/notes-design/docs/adr/0017）。
+
+  「主張の骨格」は全員同じ項目（出発点／ビットコインの役割／本人の動き）で揃える。
+  人物を並べて比べる軸になるので、一人だけ違う項目を足さない。
+{%- endcomment -%}
+{%- assign mine = site.pages
+      | where_exp: 'p', "p.dir == '/articles/'"
+      | where: 'person', page.slug
+      | sort: 'date' | reverse -%}
+
+<div class="row">
+  <div class="col content">
+    <article class="post-content page-content">
+      <header class="person-hero">
+        {%- include portrait.html person=page size=168 -%}
+        <div class="person-hero-body">
+          <h1>{{ page.title }}</h1>
+          <p class="person-role">{{ page.role }}</p>
+          {%- if page.x %}
+          <a class="person-x" href="https://x.com/{{ page.x }}" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.214-6.817-5.966 6.817H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>@{{ page.x }}
+          </a>
+          {%- endif %}
+        </div>
+      </header>
+
+      {%- if page.thesis %}
+      <h2 id="thesis">主張の骨格</h2>
+      <dl class="thesis">
+        {%- for t in page.thesis %}
+        <dt>{{ t.label }}</dt>
+        <dd>{{ t.text }}</dd>
+        {%- endfor %}
+      </dl>
+      {%- endif %}
+
+      <h2 id="bio">経歴</h2>
+      {{ content }}
+
+      {%- if page.photo and page.photo_author %}
+      <p class="photo-credit">写真:
+        <a href="{{ page.photo_source }}" target="_blank" rel="noopener">{{ page.photo_author }}</a>
+        {%- if page.photo_license %} / <a href="{{ page.photo_license_url }}" target="_blank" rel="noopener">{{ page.photo_license }}</a>{% endif %}（トリミング）
+      </p>
+      {%- endif %}
+    </article>
+
+    {%- if mine.size > 0 %}
+    <section class="tile-section tile-section--index">
+      <h2 class="tile-heading">この人の記事</h2>
+      <ul class="tile-grid tile-grid--article tile-grid--index">
+        {%- for p in mine -%}
+          {%- assign card = p.url | replace: '.html', '.png' | replace: '/articles/', '/assets/img/articles/' -%}
+          {%- assign card_file = site.static_files | where: 'path', card | first -%}
+          <li class="tile">
+            <a class="tile-link" href="{{ p.url | relative_url }}">
+              {%- if card_file %}
+              <span class="tile-thumb tile-thumb--article">
+                <img src="{{ card | relative_url }}" alt="" loading="lazy" width="1200" height="630">
+              </span>
+              {%- endif %}
+              <span class="tile-body">
+                <span class="tile-title{% if card_file %} tile-title--sr{% endif %}">{{ p.title }}</span>
+                {%- if p.description %}
+                <span class="tile-desc">{{ p.description }}</span>
+                {%- endif %}
+                <span class="tile-meta">{{ p.date | date: '%Y-%m-%d' }}</span>
+              </span>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </section>
+    {%- endif %}
+
+    {%- assign others = site.people | where_exp: 'd', "d.slug != page.slug" -%}
+    {%- if others.size > 0 %}
+    <section class="tile-section">
+      <h2 class="tile-heading"><a href="{{ '/people/' | relative_url }}">ほかの論客</a></h2>
+      <ul class="people-others">
+        {%- for d in others -%}
+        <li><a href="{{ d.url | relative_url }}">{%- include portrait.html person=d size=64 -%}<span>{{ d.title }}</span></a></li>
+        {%- endfor -%}
+      </ul>
+    </section>
+    {%- endif %}
+  </div>
+</div>
