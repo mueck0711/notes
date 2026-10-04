@@ -119,8 +119,10 @@ Gromen は準備通貨の問題を、トリフィンのジレンマとして立�
 ビットコインの上昇も、米国が抑えるべき脅威とは見ていません。
 「ビットコインは、台頭してくる脅威などではない。むしろ、もっと速く上がってもらわないと困る。そうすれば我々の資産の余力が増え、生産を国内に戻すためにインフレを起こしていく間も、国民が実質的な価値を失わずに済む」[^15]。
 
-同じ筋書きを一つの文にまとめたのが、2025年1月のこの発言です。
-「そうなれば、ドル体制は強くなり、ドルは弱くなり、米国の産業は競争力を取り戻し、インフレと名目成長が起きる。そして世界には、ドルの黒字を流し込めるだけの大きさになった中立的準備資産ができる。彼らは、我々の国債や金融資産を買い込むのをやめるだろう」[^16]。
+同じ筋書きを、2025年1月には一つの文にまとめています。
+ビットコインが1973〜74年の石油のように半年で4倍になったら、と仮定した話です。
+中国に米国の産業を持たれすぎたくないのは、1974年に産油国に持たれすぎたくなかったのと同じだ、と前置きしたうえで、こう続けます。
+「そうなれば、ドル体制は強くなり、ドルは弱くなり、米国の産業は競争力を取り戻し、インフレと名目成長が起きる。そして世界には、ドルの黒字を流し込めるだけの大きさになった中立的準備資産ができる。彼らは、米国の企業や産業を買い込むのをやめるだろう」[^16]。
 ただし、ドルに取って代わるとまでは言いません。
 「ビットコインが世界の準備通貨としてドルに取って代わるとは思わない。ただ、ビットコインがゴールドと並んで、準備資産としての国債に取って代わり始める可能性はあると思う」[^11]。
 戦略的ビットコイン準備については、公表の順序に注文をつけています。
@@ -128,9 +130,10 @@ Gromen は準備通貨の問題を、トリフィンのジレンマとして立�
 2024年8月には、30年債にビットコインの上乗せをつけて発行する案も語っていました[^18]。
 2025年10月に中国がレアアースの輸出を絞ったときにも、同じ1971年の構造を持ち出しました。
 「中国は、米国の兵器システム向けにレアアースを売るのをもうやめた。これで1971年以降のドル構造は終わりだ」[^19]。
-兵器に欠かせない部材が、ドルを払っても買えなくなった。ドルを渡せば何でも買える、という前提が崩れた、という意味です。
-そのうえで彼が示す解決策は、通貨の側にあります。米国がビットコインを中国のゴールドへの対抗手段にする、という発想です。
+中国は長い経済対立に耐えられるが、米国は兵器の供給網をすぐには作り直せない。そのことが露わになった、という読みです。
+解決策として彼が挙げるのは、通貨の側です。
 「解決策は政治ではなく、通貨にある。ビットコインかゴールドだ」[^19]。
+ドルの支配が弱まるにつれ、国債に代わって準備資産として選ばれるのはこの二つだ、という見立てです[^19]。
 
 米国当局がビットコインを抑えようとする、という見方も、彼は早くから持っていました。
 2023年4月、暗号資産企業の銀行口座が閉じられていった動きを、彼は「当局は、上がると自分たちの見栄えが悪くなるものを、上がらせたくない」と読みました[^20]。
@@ -162,9 +165,9 @@ Gromen はビットコインに、市場の流動性を映す計器という役�
 ステーブルコインの見方も、ここにつながります。
 発行体が T ビルを買うことで国債の需要を作る構想を、彼は「国債市場の崩壊を防ぐためのヘイルメリー」（負けている側が最後に投げる一か八かのロングパス）と呼びました[^5]。
 その時点の市場規模は3,000億ドルで、3兆ドルという目標に見合う需要の仕組みは示されていない、というのが彼の評価です[^5]。
-2026年8月には、財務長官のステーブルコインをめぐる発言を受けて、皮肉を込めて書いています。
+2026年8月には、ステーブルコインで国債の買い手を増やすという財務長官の構想に、皮肉を込めて書いています。
 「連邦債務をすべて T ビルに置き換え、その T ビルを裏づけに利回りゼロのステーブルコインを出し、さらに T ビルの金利を0.60%に下げれば、100%その通りになるかもしれない。そのときは、ゴールドとビットコインをもっと持ちたくなるだろうけれど」[^22]。
-財務長官の言う通りにするには、ここまで無理な手順を踏まなければならない、という皮肉です。最後の一文が本音です。
+この構想どおりにするには、ここまで無理な手順を踏まなければならない、という皮肉です。最後の一文が本音です。
 ステーブルコインは財政の資金繰りの道具であり、それが進むほど希少資産の値打ちが上がる。
 彼の中では、この二つは同じ文の前半と後半です。
 
@@ -270,10 +273,10 @@ Alden が硬い希少資産を持ち続けることを処方にするのに対�
 [^13]: Bankless, ["The Debasement Trade" - Luke Gromen on Gold, Bitcoin & The 100 Year Reset](https://www.bankless.com/podcast/the-debasement-trade-luke-gromen)（2025年11月3日。"It's not a debasement trade. It is a debasement secular trend."、ゴールドを1万〜2万ドルで再評価して2.5兆〜5兆ドル）
 [^14]: William Blair, [Gold, Energy, and the Future of the Global Monetary System with Luke Gromen](https://www.williamblair.com/Insights/Gold-Energy-and-the-Future-of-the-Global-Monetary-System-with-Luke-Gromen)（2025年12月17日収録、22日公開。"Gold is just a 0% yielding bond of infinite duration and infinite face value."、"Gold is simply stored energy. That's all it is."、"The gold oil ratio is essentially just a pressure gauge on the health of the U.S. dollar system."、"I'm long term still very bullish on bitcoin."）
 [^15]: The Currency Analytics, [Bitcoin Could Become Neutral Reserve Asset Amid National Security Crisis, Says Investor Luke Gromen](https://thecurrencyanalytics.com/bitcoin/bitcoin-could-become-neutral-reserve-asset-amid-national-security-crisis-says-investor-luke-gromen-151713)（2024年12月16日。Robert Breedlove との対話。"What that oil price did by moving up that way was it effectively made oil big enough to back the dollar, to back the US deficits."、"The game theory has changed around this. For national political stability, for bringing back the middle and working class for defense base re-establishment, all of these things are pointing to a neutral reserve asset."、"Bitcoin isn't a threat that is rising. It needs to go up faster so that we have more balance sheet capacity and so that our people, as we reinflate to re-shore all of this stuff, stay whole on a real basis while that happens."）
-[^16]: Walker, [LUKE GROMEN: Bitcoin Is The New Oil](https://walkeramerica.substack.com/p/luke-gromen-bitcoin-is-the-new-oil)（2025年1月6日。THE Bitcoin Podcast。"Now we've strengthened the dollar system. We've weakened the dollar. We've made American industry more competitive. We've driven inflation and nominal growth. And we have provided the world a neutral reserve asset that is now big enough to recycle their dollar surpluses into where they stop buying all of our stuff."）
+[^16]: Walker, [LUKE GROMEN: Bitcoin Is The New Oil](https://walkeramerica.substack.com/p/luke-gromen-bitcoin-is-the-new-oil)（2025年1月6日。THE Bitcoin Podcast。"Now we've strengthened the dollar system. We've weakened the dollar. We've made American industry more competitive. We've driven inflation and nominal growth. And we have provided the world a neutral reserve asset that is now big enough to recycle their dollar surpluses into where they stop buying all of our stuff."。番組の文字起こし（[Wave](https://pod.wave.co/podcast/the-bitcoin-podcast/bitcoin-is-the-new-oil-luke-gromen-the-bitcoin-podcast-e67c6edf)）では、直前に "Let's say bitcoin goes up 400% six months just like oil did from October 73 to April 74" という仮定と、"we don't want too much Chinese ownership of American industry, just like we didn't want too much Arab ownership of American industry in 1974" という前置きがある）
 [^17]: The Investor's Podcast Network, [BTC215: Global Macro and Bitcoin Q1 2025 w/ Luke Gromen](https://www.theinvestorspodcast.com/bitcoin-fundamentals/global-macro-and-bitcoin-q1-2025-w-luke-gromen/)（2025年1月1日。"I have as high a conviction as probably as I've had in my career that the dollar is going to be the release valve in 2025."、ドル指数106〜107から95〜100、税収が GDP の18%を超えると景気後退、"the smoke detector that couldn't be turned off"、"I'll buy it in the background and manage the chart as you talk positively about it"）
 [^18]: The Currency Analytics, [Next US President Can Combat Massive Inflation by Using Bitcoin to Back Treasuries](https://thecurrencyanalytics.com/bitcoin/next-us-president-can-combat-massive-inflation-by-using-bitcoin-to-back-treasuries-macro-guru-luke-gromen-128167)（2024年8月1日。What Bitcoin Did での提案の要約。30年債5兆ドルを2.5%で発行しビットコインの上乗せをつける案。本人の逐語ではない）
-[^19]: Bitbo, [Luke Gromen: China's Rare Earth Squeeze Boosts Gold & BTC Reserve Roles](https://bitbo.io/news/china-rare-earths-bitcoin/)（2025年10月19日。"They're done selling rare earths into U.S. weapon systems. That's the end of the post-'71 dollar structure."、"The fix isn't political, it's monetary: Bitcoin or gold."）
+[^19]: Bitbo, [Luke Gromen: China's Rare Earth Squeeze Boosts Gold & BTC Reserve Roles](https://bitbo.io/news/china-rare-earths-bitcoin/)（2025年10月19日。"They're done selling rare earths into U.S. weapon systems. That's the end of the post-'71 dollar structure."、"The fix isn't political, it's monetary: Bitcoin or gold."。記事の要約として、米国が供給網をすぐには作り直せないことが露わになった、ドルの支配が弱まるなかでゴールドとビットコインが国債に代わる準備資産になる）
 [^20]: The Daily Hodl, [US Authorities Coordinating To Suppress Price of Bitcoin Before Hyper Inflation Takes Off](https://dailyhodl.com/2023/04/18/us-authorities-coordinating-to-suppress-price-of-bitcoin-before-hyper-inflation-takes-off-macro-investor-luke-gromen/)（2023年4月18日。"[US authorities] don't want things going up that make [them] look bad."、"Choke Point 2.0, within this, starts to look like a capital control of an asset class that certain elements of the government would not want going up"、"They are starting to see the inevitability of where policy is going to have to go which is a compressed period of high rates of inflation"）
 [^21]: Yahoo Finance（Stocktwits 転載）, [Bitcoin Is The 'Last Functioning Smoke Alarm Of Liquidity,' Says Macro Analyst Luke Gromen](https://finance.yahoo.com/markets/crypto/articles/bitcoin-last-functioning-smoke-alarm-115058478.html)（2026年6月6日）および NewsBTC, [Bitcoin Suppressed Like Gold? Luke Gromen Says It Can't Last Forever](https://www.newsbtc.com/bitcoin-news/bitcoin-suppressed-like-gold-luke-gromen/)（2026年6月11日。いずれも Natalie Brunell との2026年6月6日の対話。"AI is sucking all the oxygen out of the room, all the liquidity out of the room"、"I think Bitcoin is one of, if not the last functioning smoke alarm of liquidity"、"it's telling us not good things"、"nibbled a little bit"、"I think the way they would do it is the expansion of derivatives, the way they've done it with gold historically"、"Somebody wants to own Bitcoin, but they're not buying Bitcoin. They're buying a call on Bitcoin."、"In the short run, they can manage the optics. In the long run, they can't."）
 [^22]: Luke Gromen, [X の投稿](https://x.com/LukeGromen/status/2090470905096851564)（2026年8月20日。"This could prove 100% accurate if he swaps ALL the Federal debt for T-Bills, then uses those T-Bills to back 0% yielding stablecoins, then cuts the rate on those T-Bills to 0.60% (b/c the banks don't deserve 3.5% on stablecoins). You're gonna want to own more gold & BTC though."。日付は投稿 ID から復元）
