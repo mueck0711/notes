@@ -1332,6 +1332,26 @@ img {
   color: var(--text-muted-color);
 }
 
+/* ホームの小さいカード（顔・名前・主張の一行だけ） */
+.people-grid--compact {
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.people-grid--compact .person-card a {
+  padding: 1.4rem 0.9rem 1.2rem;
+}
+
+.people-grid--compact .person-name {
+  margin-top: 0.8rem;
+  font-size: 0.95rem;
+}
+
+.people-grid--compact .person-line {
+  margin-top: 0.5rem;
+  font-size: 0.82rem;
+}
+
 /* 人物ページの頭 */
 .person-hero {
   display: flex;

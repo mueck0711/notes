@@ -66,6 +66,22 @@
 </section>
 
 {%- comment -%}
+  ---- 論客たち: 最新記事が新しい人から N 人 ----
+  人物記事は論考から外して人物ごとに並べている（→ dev/notes-design/docs/adr/0017）。
+  ホームでは顔・名前・主張の一行だけの小さいカード。肩書きと記事数は /people/ が持つ。
+{%- endcomment -%}
+{%- if site.people.size > 0 %}
+<section class="tile-section">
+  <h2 class="tile-heading"><a href="{{ '/people/' | relative_url }}">論客たち</a></h2>
+  <p class="tile-lead">ビットコインについて発言を重ねてきた人たちを、一人ずつ本人の言葉から読む記事です</p>
+
+  {% include people-cards.html compact=true limit=6 %}
+
+  <p class="tile-more"><a href="{{ '/people/' | relative_url }}">すべての論客を見る →</a></p>
+</section>
+{%- endif %}
+
+{%- comment -%}
   ---- マーケットレポート: card.png を持つ直近 N 日 ----
   静的ファイル側から引くので、カードのある日だけが並ぶ。日付フォルダ名は辞書順＝時系列順。
   タイトルは front matter が無いので本文の H1（1行目）から取る（head.html と同じ考え方だが、

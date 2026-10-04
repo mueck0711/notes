@@ -1,0 +1,61 @@
+{%- comment -%}
+  論客たちの人物カード。一覧（_layouts/people-index.html）とホーム（card-grid.html）が共有する
+  （→ dev/notes-design/docs/adr/0017）。
+    {% include people-cards.html %}                       一覧: 肩書き・記事数まで出す
+    {% include people-cards.html compact=true limit=6 %}  ホーム: 顔・名前・主張の一行だけ
+
+  並び順 = その人の最新記事が新しい順。記事を日付降順に舐めて、初めて出てきた person から
+  順に積む（Liquid に「計算した値で sort」が無いため）。記事がまだ無い人は末尾に回す。
+{%- endcomment -%}
+{%- assign person_articles = site.pages
+      | where_exp: 'p', "p.dir == '/articles/'"
+      | where_exp: 'p', "p.person != nil"
+      | sort: 'date' | reverse -%}
+{%- assign order = '' -%}
+{%- for a in person_articles -%}
+  {%- assign key = '|' | append: a.person | append: '|' -%}
+  {%- unless order contains key -%}{%- assign order = order | append: key -%}{%- endunless -%}
+{%- endfor -%}
+{%- for d in site.people -%}
+  {%- assign key = '|' | append: d.slug | append: '|' -%}
+  {%- unless order contains key -%}{%- assign order = order | append: key -%}{%- endunless -%}
+{%- endfor -%}
+{%- assign slugs = order | split: '|' -%}
+{%- assign people_limit = include.limit | default: 1000 -%}
+{%- assign shown = 0 -%}
+
+<ul class="people-grid{% if include.compact %} people-grid--compact{% endif %}">
+  {%- for s in slugs -%}
+    {%- if s == '' -%}{%- continue -%}{%- endif -%}
+    {%- if shown >= people_limit -%}{%- break -%}{%- endif -%}
+    {%- assign d = site.people | where: 'slug', s | first -%}
+    {%- unless d -%}{%- continue -%}{%- endunless -%}
+    {%- assign shown = shown | plus: 1 -%}
+    {%- assign mine = person_articles | where: 'person', s -%}
+    <li class="person-card">
+      <a href="{{ d.url | relative_url }}">
+        {%- if include.compact -%}
+          {%- include portrait.html person=d size=88 -%}
+        {%- else -%}
+          {%- include portrait.html person=d size=112 -%}
+        {%- endif %}
+        <span class="person-name">{{ d.title }}</span>
+        {%- unless include.compact %}
+        <span class="person-role">{{ d.role }}</span>
+        {%- endunless %}
+        {%- if d.line %}
+        <span class="person-line">{{ d.line }}</span>
+        {%- endif %}
+        {%- unless include.compact %}
+        <span class="person-meta">
+          {%- if mine.size > 0 -%}
+            記事 {{ mine.size }}本 · 最新 {{ mine.first.date | date: '%Y-%m-%d' }}
+          {%- else -%}
+            記事はまだありません
+          {%- endif -%}
+        </span>
+        {%- endunless %}
+      </a>
+    </li>
+  {%- endfor -%}
+</ul>
