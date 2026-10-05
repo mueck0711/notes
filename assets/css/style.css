@@ -1058,6 +1058,128 @@ img {
   padding-top: 0.6rem;
 }
 
+/* トップの「最新の更新」。定期便3系統の最新1件ずつを1行に並べる（→ adr/0018）。
+ * 系列名は節見出しでなくタイル上端のラベルが持ち、「すべて見る」はタイルの外に置く
+ * （<a> の入れ子はできない）。そのため li を縦の flex にして、リンク部分だけを伸ばす。 */
+.latest-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* 1 枚が 250px を切るとレポートの見出しと見出しプレビューが詰まるので縦に積む。
+ * サイドバー（260px）が出ている 850〜1099px でも本文カラムは 800px 未満になる。 */
+@media (max-width: 1099px) {
+  .latest-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* 全幅のままだと 16:9 のポスターが画面の高さの半分を取るので、画像を左に寄せる */
+  .latest-tile:not(.latest-tile--news) .tile-link {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  }
+
+  .latest-tile:not(.latest-tile--news) .latest-label {
+    grid-column: 1 / -1;
+  }
+
+  .latest-tile:not(.latest-tile--news) .tile-thumb {
+    border-bottom: 0;
+    border-right: 1px solid var(--main-border-color);
+  }
+
+  .latest-tile:not(.latest-tile--news) .tile-body {
+    align-self: center;
+  }
+}
+
+/* スマホ幅では横並びの画像が小さすぎるので、また上に積む */
+@media (max-width: 559px) {
+  .latest-tile:not(.latest-tile--news) .tile-link {
+    display: flex;
+  }
+
+  .latest-tile:not(.latest-tile--news) .tile-thumb {
+    border-bottom: 1px solid var(--main-border-color);
+    border-right: 0;
+  }
+}
+
+.latest-tile {
+  display: flex;
+  flex-direction: column;
+}
+
+.latest-tile .tile-link {
+  flex: 1;
+  height: auto;
+}
+
+.latest-label {
+  border-bottom: 1px solid var(--main-border-color);
+  color: var(--link-color);
+  display: flex;
+  font-size: 0.78rem;
+  font-weight: 700;
+  gap: 0.5rem;
+  justify-content: space-between;
+  letter-spacing: 0.02em;
+  padding: 0.7rem 1rem 0.6rem;
+}
+
+.latest-cadence {
+  color: var(--text-muted-color);
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+/* テキストのタイルは日付を下端へ寄せ、隣のレポートタイルと下辺を揃える */
+.latest-tile--news .tile-link {
+  display: flex;
+  flex-direction: column;
+}
+
+.latest-tile--news .tile-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.latest-tile--news .tile-meta {
+  margin-top: auto;
+  padding-top: 0.6rem;
+}
+
+.latest-more {
+  display: flex;
+  font-size: 0.85rem;
+  gap: 1rem;
+  margin: 0.6rem 0.2rem 0;
+}
+
+.latest-more a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.latest-more a:hover {
+  text-decoration: underline;
+}
+
+/* トップの論考は一覧性を優先して小さめに。最大 4 列で、それ以上は増やさない
+ * （本文カラムが 1250px まで広がると auto-fill だけでは 5 列になり、8 件が 5+3 に割れる）。
+ * 下限 220px は焼き込みタイトルが読める幅（180px 前後で読めなくなる → .tile-grid--related）。 */
+.tile-grid--home {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, max(220px, (100% - 3 * 1.25rem) / 4)), 1fr));
+}
+
+.tile-grid--home .tile-body {
+  padding: 0.6rem 0.85rem 0.75rem;
+}
+
+.tile-grid--home .tile-meta {
+  margin-top: 0;
+}
+
 /* 記事末尾の関連記事（同カテゴリ）。トップのタイルをそのまま流用し、列数だけ 2 に固定する。
  * auto-fill のままだと目次パネルの有無で本文カラムが約 914px / 約 1202px と変わり、
  * 2 列と 3 列で揺れる。4 件を 2×2 で見せると決めたので固定列にする。 */

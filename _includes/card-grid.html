@@ -12,13 +12,153 @@
     記事は 1200/630 のまま（タイトルが画像に焼かれているので切らない）
     レポートは 16/9 に上端揃えで切る（縦長全体を縮小すると本文が潰れて読めない。
     上部＝ヘッダー＋価格＋リードだけがサムネイルとして機能する）
+
+  並びは 最新の更新 → 論考 → 論客たち（→ dev/notes-design/docs/adr/0018）。
 {%- endcomment -%}
+
+{%- assign nl = '
+' -%}
+
+{%- comment -%}
+  ---- 最新の更新: 定期便3系統（レポート・btc-news・分室）の最新1件ずつを1行に ----
+  過去の回は各系列の索引が持つので、トップでは最新の回だけを見せる（→ adr/0018）。
+  1件だけを系列ごとの節に置くと、4列のグリッドに1枚で右3/4が空くので、1つの節に横並びにする。
+  系列名は節見出しの代わりにタイル上端のラベル（.latest-label）が持つ。
+  「すべて見る」はタイルの外（<a> の入れ子はできない）。
+{%- endcomment -%}
+
+{%- comment -%}
+  レポート: 静的ファイル側から引くので、カードのある日だけが対象。日付フォルダ名は辞書順＝時系列順。
+  タイトルは front matter が無いので本文の H1（1行目）から取る（head.html と同じ考え方だが、
+  こちらは他ページの生 Markdown を見るので split で1行目を取る）。
+{%- endcomment -%}
+{%- assign report_card = site.static_files
+      | where: 'name', 'card.png'
+      | where_exp: 'f', "f.path contains '/market-reports/'"
+      | sort: 'path' | last -%}
+
+{%- comment -%}
+  btc-news: card.png を持たない（テキストのみ生成）。サムネイルの代わりにその日の見出し
+  （Markdown の `### 🏦 …` 行）をプレビューする。各日ページは front matter 無し
+  （optional-front-matter → readme-index）なのでレポートと同じく site.pages に載る。
+{%- endcomment -%}
+{%- assign news_page = site.pages
+      | where_exp: 'p', "p.url contains '/btc-news/'"
+      | where_exp: 'p', "p.url != '/btc-news/'"
+      | sort: 'url' | last -%}
+
+{%- comment -%}
+  分室（crypto-news の stablecoin-rwa プロファイル）: btc-news と同じ形で、単位が「週」なだけ。
+  **各回（日付フォルダ）だけを拾う。** `/stablecoin-rwa/` の下には特集記事
+  （`/stablecoin-rwa/articles/…`）も入る（→ dev/crypto-news/docs/adr/0014）が、
+  このタイルは日付から `【MM/DD】` を組み `### ` の見出しをプレビューする作りなので、
+  特集記事が混じると**タイトルが `【/】` になり、プレビューも空になる**。
+{%- endcomment -%}
+{%- assign scrwa_page = site.pages
+      | where_exp: 'p', "p.url contains '/stablecoin-rwa/'"
+      | where_exp: 'p', "p.url != '/stablecoin-rwa/'"
+      | where_exp: 'p', "p.dir != '/stablecoin-rwa/articles/'"
+      | sort: 'url' | last -%}
+
+{%- comment -%} 1件だけなので見出しは 3 本でなく 5 本見せる（隣のレポートタイルと高さも近くなる）。 {%- endcomment -%}
+{%- assign headline_limit = 5 -%}
+
+<section class="tile-section">
+  <h2 class="tile-heading">最新の更新</h2>
+  <p class="tile-lead">毎朝のマーケットレポートとニュース、毎週月曜の分室の、それぞれ最新の回です。</p>
+
+  <ul class="tile-grid latest-grid">
+    {%- if report_card -%}
+      {%- assign dir = report_card.path | remove: 'card.png' -%}
+      {%- assign date = dir | split: '/' | last -%}
+      {%- assign p = site.pages | where: 'url', dir | first -%}
+      {%- assign title = date -%}
+      {%- if p -%}
+        {%- assign first_line = p.content | strip | split: nl | first | strip -%}
+        {%- if first_line contains '# ' -%}
+          {%- assign title = first_line | remove_first: '#' | strip -%}
+        {%- endif -%}
+      {%- endif -%}
+      <li class="tile latest-tile">
+        <a class="tile-link" href="{{ dir | relative_url }}">
+          <span class="latest-label">マーケットレポート<span class="latest-cadence">毎朝</span></span>
+          <span class="tile-thumb tile-thumb--report">
+            <img src="{{ report_card.path | relative_url }}" alt="" loading="lazy">
+          </span>
+          <span class="tile-body">
+            <span class="tile-title">{{ title }}</span>
+            <span class="tile-meta">{{ date }}</span>
+          </span>
+        </a>
+        <p class="latest-more">
+          <a href="{{ '/market-reports/' | relative_url }}">すべてのレポート →</a>
+          <a href="{{ '/articles/market-report-glossary.html' | relative_url }}">用語集</a>
+        </p>
+      </li>
+    {%- endif -%}
+
+    {%- if news_page -%}
+      {%- assign date = news_page.url | remove_first: '/btc-news/' | remove: '/' -%}
+      {%- comment -%}
+        タイトルは日付（フォルダ名 YYYY-MM-DD）から MM/DD で組む。年は下のメタが持ち、
+        H1 の【2026/07/24】と重複するので落とす。系列名は固定なので直書きする。
+        見出し行は `### ` を区切りに切り出す（`## ` は3ハッシュではないので当たらない）。
+      {%- endcomment -%}
+      {%- assign dparts = date | split: '-' -%}
+      {%- assign title = '【' | append: dparts[1] | append: '/' | append: dparts[2] | append: '】きのうのビットコイン' -%}
+      {%- assign blocks = news_page.content | split: '### ' -%}
+      <li class="tile latest-tile latest-tile--news">
+        <a class="tile-link" href="{{ news_page.url | relative_url }}">
+          <span class="latest-label">きのうのビットコイン<span class="latest-cadence">毎朝</span></span>
+          <span class="tile-body">
+            <span class="tile-title">{{ title }}</span>
+            <ul class="tile-headlines">
+              {%- for block in blocks offset: 1 limit: headline_limit -%}
+                <li>{{ block | split: nl | first | strip }}</li>
+              {%- endfor -%}
+            </ul>
+            <span class="tile-meta">{{ date }}</span>
+          </span>
+        </a>
+        <p class="latest-more"><a href="{{ '/btc-news/' | relative_url }}">すべての回 →</a></p>
+      </li>
+    {%- endif -%}
+
+    {%- comment -%}
+      分室は launchd の初回実行まで 1 ページも存在しなかった。回が無いときはタイルごと出さない。
+      見出しの「[分室]」は sidebar の nav と同じ札で、**このタイルだけがビットコイン以外の主題**だと
+      分かるようにする。
+    {%- endcomment -%}
+    {%- if scrwa_page -%}
+      {%- assign date = scrwa_page.url | remove_first: '/stablecoin-rwa/' | remove: '/' -%}
+      {%- assign dparts = date | split: '-' -%}
+      {%- assign title = '【' | append: dparts[1] | append: '/' | append: dparts[2] | append: '】今週のステーブルコイン & RWA' -%}
+      {%- assign blocks = scrwa_page.content | split: '### ' -%}
+      <li class="tile latest-tile latest-tile--news">
+        <a class="tile-link" href="{{ scrwa_page.url | relative_url }}">
+          <span class="latest-label">[分室]ステーブルコイン &amp; RWA<span class="latest-cadence">毎週月曜</span></span>
+          <span class="tile-body">
+            <span class="tile-title">{{ title }}</span>
+            <ul class="tile-headlines">
+              {%- for block in blocks offset: 1 limit: headline_limit -%}
+                <li>{{ block | split: nl | first | strip }}</li>
+              {%- endfor -%}
+            </ul>
+            <span class="tile-meta">{{ date }}</span>
+          </span>
+        </a>
+        <p class="latest-more"><a href="{{ '/stablecoin-rwa/' | relative_url }}">すべての回 →</a></p>
+      </li>
+    {%- endif -%}
+  </ul>
+</section>
 
 {%- comment -%}
   ---- 論考: 新しい順に直近 N 件 ----
   全件はカテゴリ別の /articles/ が持つ（→ _includes/article-index.html）。
+  ホームでは一覧性を優先して小さめのタイルを 4 列 × 2 段で並べる（→ adr/0018・.tile-grid--home）。
 {%- endcomment -%}
-{%- assign article_limit = 6 -%}
+{%- assign article_limit = 8 -%}
 {%- comment -%}
   **`p.dir` で「/articles/ 直下」に限る。`p.url contains` にしない。**
   部分一致にすると分室の特集記事（`/stablecoin-rwa/articles/…`）まで論考として拾う
@@ -37,7 +177,7 @@
   <h2 class="tile-heading"><a href="{{ '/articles/' | relative_url }}">論考</a></h2>
   <p class="tile-lead">ビットコインに関する考察記事です</p>
 
-  <ul class="tile-grid tile-grid--article">
+  <ul class="tile-grid tile-grid--article tile-grid--home">
     {%- for p in articles limit: article_limit -%}
       {%- assign card = p.url | replace: '.html', '.png' | replace: '/articles/', '/assets/img/articles/' -%}
       {%- assign card_file = site.static_files | where: 'path', card | first -%}
@@ -80,163 +220,3 @@
   <p class="tile-more"><a href="{{ '/people/' | relative_url }}">すべての論客を見る →</a></p>
 </section>
 {%- endif %}
-
-{%- comment -%}
-  ---- マーケットレポート: card.png を持つ直近 N 日 ----
-  静的ファイル側から引くので、カードのある日だけが並ぶ。日付フォルダ名は辞書順＝時系列順。
-  タイトルは front matter が無いので本文の H1（1行目）から取る（head.html と同じ考え方だが、
-  こちらは他ページの生 Markdown を見るので split で1行目を取る）。
-{%- endcomment -%}
-{%- assign report_limit = 6 -%}
-{%- assign nl = '
-' -%}
-{%- assign cards = site.static_files
-      | where: 'name', 'card.png'
-      | where_exp: 'f', "f.path contains '/market-reports/'"
-      | sort: 'path' | reverse -%}
-
-<section class="tile-section">
-  <h2 class="tile-heading"><a href="{{ '/market-reports/' | relative_url }}">マーケットレポート</a></h2>
-  <p class="tile-lead">オンチェーン／オフチェーン指標を毎朝やさしくまとめた日次アーカイブ。指標の読み方は<a href="{{ '/articles/market-report-glossary.html' | relative_url }}">マーケットレポート用語集</a>にまとめています。</p>
-
-  <ul class="tile-grid tile-grid--report">
-    {%- for f in cards limit: report_limit -%}
-      {%- assign dir = f.path | remove: 'card.png' -%}
-      {%- assign date = dir | split: '/' | last -%}
-      {%- assign p = site.pages | where: 'url', dir | first -%}
-      {%- assign title = date -%}
-      {%- if p -%}
-        {%- assign first_line = p.content | strip | split: nl | first | strip -%}
-        {%- if first_line contains '# ' -%}
-          {%- assign title = first_line | remove_first: '#' | strip -%}
-        {%- endif -%}
-      {%- endif -%}
-      <li class="tile">
-        <a class="tile-link" href="{{ dir | relative_url }}">
-          <span class="tile-thumb tile-thumb--report">
-            <img src="{{ f.path | relative_url }}" alt="" loading="lazy">
-          </span>
-          <span class="tile-body">
-            <span class="tile-title">{{ title }}</span>
-            <span class="tile-meta">{{ date }}</span>
-          </span>
-        </a>
-      </li>
-    {%- endfor -%}
-  </ul>
-
-  <p class="tile-more"><a href="{{ '/market-reports/' | relative_url }}">すべてのレポートを見る →</a></p>
-</section>
-
-{%- comment -%}
-  ---- きのうのビットコイン（btc-news）: 見出しプレビュー付きタイル ----
-  レポートと違い card.png を持たない（dev/btc-news はテキストのみ生成）。サムネイルの代わりに、
-  その日の見出し（Markdown の `### 🏦 …` 行）を先頭 3 本だけプレビューして中身を見せる。
-  各日ページは front matter 無し（optional-front-matter → readme-index）なのでレポートと同じく
-  site.pages に載る。タイトルと見出しは p.content の「生 Markdown」から取る（head.html / レポート
-  タイルと同じ前提。`# ` や `### ` が残っている）。推測でパスを組まないので存在する日だけ並ぶ。
-{%- endcomment -%}
-{%- assign news_limit = 6 -%}
-{%- assign news_pages = site.pages
-      | where_exp: 'p', "p.url contains '/btc-news/'"
-      | where_exp: 'p', "p.url != '/btc-news/'"
-      | sort: 'url' | reverse -%}
-
-<section class="tile-section">
-  <h2 class="tile-heading"><a href="{{ '/btc-news/' | relative_url }}">きのうのビットコイン</a></h2>
-  <p class="tile-lead">きのうから今朝にかけてのビットコイン関連ニュースを、毎朝、出典つきで1ページにまとめています。</p>
-
-  <ul class="tile-grid tile-grid--news">
-    {%- for p in news_pages limit: news_limit -%}
-      {%- assign date = p.url | remove_first: '/btc-news/' | remove: '/' -%}
-      {%- comment -%}
-        タイトルは日付（フォルダ名 YYYY-MM-DD）から MM/DD で組む。年は下のメタが持ち、
-        H1 の【2026/07/24】と重複するので落とす。系列名は固定なので直書きする。
-      {%- endcomment -%}
-      {%- assign dparts = date | split: '-' -%}
-      {%- assign title = '【' | append: dparts[1] | append: '/' | append: dparts[2] | append: '】きのうのビットコイン' -%}
-      {%- comment -%} 見出し行は `### ` を区切りに切り出す（`## ` は3ハッシュではないので当たらない）。 {%- endcomment -%}
-      {%- assign blocks = p.content | split: '### ' -%}
-      <li class="tile">
-        <a class="tile-link" href="{{ p.url | relative_url }}">
-          <span class="tile-body">
-            <span class="tile-title">{{ title }}</span>
-            <ul class="tile-headlines">
-              {%- for block in blocks offset: 1 limit: 3 -%}
-                <li>{{ block | split: nl | first | strip }}</li>
-              {%- endfor -%}
-            </ul>
-            <span class="tile-meta">{{ date }}</span>
-          </span>
-        </a>
-      </li>
-    {%- endfor -%}
-  </ul>
-
-  <p class="tile-more"><a href="{{ '/btc-news/' | relative_url }}">すべての「きのうのビットコイン」を見る →</a></p>
-</section>
-
-{%- comment -%}
-  ---- 今週のステーブルコイン & RWA（crypto-news の stablecoin-rwa プロファイル）----
-  btc-news と同じ形（card.png を持たず、`### 🪙 …` の見出しを 3 本プレビュー）。
-  違いは並びの単位が「日」ではなく「週」であることだけなので、タイルの型は共有する。
-
-  **セクションごと `if` で囲む。** btc-news は公開開始と同時にこのタイルが入ったが、
-  こちらは launchd の初回実行（登録した週の月曜 8:00）まで 1 ページも存在しない。
-  空の見出しと「すべて見る →」だけが並ぶ状態をトップに出さない。
-{%- endcomment -%}
-{%- assign scrwa_limit = 6 -%}
-{%- comment -%}
-  **各回（日付フォルダ）だけを拾う。** `/stablecoin-rwa/` の下には特集記事
-  （`/stablecoin-rwa/articles/…`）も入る（→ dev/crypto-news/docs/adr/0014）が、
-  このタイルは日付から `【MM/DD】` を組み `### ` の見出しを 3 本プレビューする作りなので、
-  特集記事が混じると**タイトルが `【/】` になり、プレビューも空になる**
-  （論考は `### ` を持たない）。特集記事への導線は索引ページの「特集記事」欄が持つ。
-{%- endcomment -%}
-{%- assign scrwa_pages = site.pages
-      | where_exp: 'p', "p.url contains '/stablecoin-rwa/'"
-      | where_exp: 'p', "p.url != '/stablecoin-rwa/'"
-      | where_exp: 'p', "p.dir != '/stablecoin-rwa/articles/'"
-      | sort: 'url' | reverse -%}
-
-{%- if scrwa_pages.size > 0 -%}
-<section class="tile-section">
-  {%- comment -%}
-    見出しに「[分室]」を付ける。sidebar の nav と同じ札で、**この節だけがビットコイン以外の
-    主題**だと分かるようにする（nav は区切り線でも分けているが、トップは節が縦に並ぶだけなので
-    札しか手が無い）。**系列名は省略しない**——nav が「SC&RWA」なのは 260px に収める都合で、
-    ここは他の見出し（マーケットレポート／きのうのビットコイン）と同じく全部書ける幅がある。
-  {%- endcomment -%}
-  <h2 class="tile-heading"><a href="{{ '/stablecoin-rwa/' | relative_url }}">[分室]ステーブルコイン &amp; RWA</a></h2>
-  <p class="tile-lead">ステーブルコインと実物資産のトークン化（RWA）について、その週に出た一次情報を毎週月曜にまとめています。</p>
-
-  <ul class="tile-grid tile-grid--news">
-    {%- for p in scrwa_pages limit: scrwa_limit -%}
-      {%- assign date = p.url | remove_first: '/stablecoin-rwa/' | remove: '/' -%}
-      {%- comment -%}
-        タイトルは日付（フォルダ名 YYYY-MM-DD）から MM/DD で組む。年は下のメタが持ち、
-        H1 の【2026/08/17】と重複するので落とす。系列名は固定なので直書きする
-        （btc-news タイルと同じ理屈）。
-      {%- endcomment -%}
-      {%- assign dparts = date | split: '-' -%}
-      {%- assign title = '【' | append: dparts[1] | append: '/' | append: dparts[2] | append: '】今週のステーブルコイン & RWA' -%}
-      {%- assign blocks = p.content | split: '### ' -%}
-      <li class="tile">
-        <a class="tile-link" href="{{ p.url | relative_url }}">
-          <span class="tile-body">
-            <span class="tile-title">{{ title }}</span>
-            <ul class="tile-headlines">
-              {%- for block in blocks offset: 1 limit: 3 -%}
-                <li>{{ block | split: nl | first | strip }}</li>
-              {%- endfor -%}
-            </ul>
-            <span class="tile-meta">{{ date }}</span>
-          </span>
-        </a>
-      </li>
-    {%- endfor -%}
-  </ul>
-
-  <p class="tile-more"><a href="{{ '/stablecoin-rwa/' | relative_url }}">すべての「ステーブルコイン &amp; RWA」を見る →</a></p>
-</section>
-{%- endif -%}
