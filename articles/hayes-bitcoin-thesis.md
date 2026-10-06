@@ -3,6 +3,7 @@ title: Arthur Hayes は何を主張してきたか
 description: 「お金の量は、お金の値段より重要だ」。BitMEX の創業者が2022年に定義したドル流動性指数から、名前を変えて続く緩和、外の貨幣、ステーブルコインという抜け道、そして2026年の「火災報知器」まで。ビットコインを法定通貨の増発への賭けとして読む論客の主張を、本人のエッセイを引きながら通して読む。
 date: 2026-10-06
 category: ビットコイン論
+person: hayes
 status: draft
 tags: [bitcoin, Arthur Hayes, 流動性, FRB, マクロ]
 ---
