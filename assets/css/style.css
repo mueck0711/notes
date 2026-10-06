@@ -1065,11 +1065,17 @@ img {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-/* 1 枚が 250px を切るとレポートの見出しと見出しプレビューが詰まるので縦に積む。
- * サイドバー（260px）が出ている 850〜1099px でも本文カラムは 800px 未満になる。 */
+/* 1 枚が 250px を切るとレポートの見出しと見出しプレビューが詰まるので、3 列をやめる。
+ * サイドバー（260px）が出ている 850〜1099px でも本文カラムは 800px 未満になる。
+ * ただし 1 列まで落とすと 3 枚が縦に並んで一覧性が消えるので、レポートだけ全幅の横長にして
+ * 上段に置き、ニュース 2 系統は下段で横 2 列のまま残す（1 列にするのは 559px 以下だけ）。 */
 @media (max-width: 1099px) {
   .latest-grid {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .latest-tile:not(.latest-tile--news) {
+    grid-column: 1 / -1;
   }
 
   /* 全幅のままだと 16:9 のポスターが画面の高さの半分を取るので、画像を左に寄せる */
@@ -1092,8 +1098,13 @@ img {
   }
 }
 
-/* スマホ幅では横並びの画像が小さすぎるので、また上に積む */
+/* スマホ幅ではニュースの横 2 列が 1 枚 250px を切り、レポートの横並びの画像も小さすぎるので、
+ * ここで初めて 1 列に積み、画像も上へ戻す */
 @media (max-width: 559px) {
+  .latest-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .latest-tile:not(.latest-tile--news) .tile-link {
     display: flex;
   }
