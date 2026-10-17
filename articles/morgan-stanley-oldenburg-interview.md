@@ -46,5 +46,3 @@ https://www.youtube.com/watch?v=8qoof-i4ovA
 ## 6. AIエージェント経済圏（Agentic Economy）との交差点
 
 * **AIとデジタル資産の融合:** 24時間稼働するオンチェーンのトークン化市場と、AIエージェントによる自律的な取引（Agentic Economy）の親和性について、1年前には議論すらされていなかったツールがここ数週間〜数ヶ月で急速に立ち上がっていると言及しています \[[16:24](https://www.youtube.com/watch?v=8qoof-i4ovA&t=984)\]。デジタル資産単体で考えるのではなく、AIとデジタル資産が交差するイノベーションの領域として、2027年に向けて最も注視すべきテーマの一つに挙げています \[[17:02](https://www.youtube.com/watch?v=8qoof-i4ovA&t=1022)\]。
-
-**動画URL:** [https\://www\.youtube.com/watch?v=8qoof-i4ovA](https://www.youtube.com/watch?v=8qoof-i4ovA)
