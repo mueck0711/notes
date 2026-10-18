@@ -92,7 +92,7 @@ defaults:
       path: market-reports/README.md
     values:
       layout: page
-  # 週次の振り返りの一覧（BMA の build_index.py が書く）。号は market-reports/weekly/YYYY-MM-DD/ で、
+  # 週次リキャップの一覧（BMA の build_index.py が書く）。号は market-reports/weekly/YYYY-MM-DD/ で、
   # 上の market-reports の post がそのまま当たる。
   - scope:
       path: market-reports/weekly/README.md

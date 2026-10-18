@@ -38,6 +38,18 @@
       | sort: 'path' | last -%}
 
 {%- comment -%}
+  週次リキャップ（dev/BMA が日曜に書く。market-reports/weekly/YYYY-MM-DD/README.md）。
+  card.png を持たない——置くと上の report_card が `/market-reports/` を含む最後の card.png として
+  週次を拾い、日次のタイルが週次に化ける（weekly/ は日付フォルダより辞書順で後ろ）。
+  なので btc-news と同じテキストのタイルにし、プレビューはリードの「この週は」の箇条を出す。
+  索引ページ `/market-reports/weekly/` 自身は除く。号が無いあいだはタイルごと出さない。
+{%- endcomment -%}
+{%- assign weekly_page = site.pages
+      | where_exp: 'p', "p.url contains '/market-reports/weekly/'"
+      | where_exp: 'p', "p.url != '/market-reports/weekly/'"
+      | sort: 'url' | last -%}
+
+{%- comment -%}
   btc-news: card.png を持たない（テキストのみ生成）。サムネイルの代わりにその日の見出し
   （Markdown の `### 🏦 …` 行）をプレビューする。各日ページは front matter 無し
   （optional-front-matter → readme-index）なのでレポートと同じく site.pages に載る。
@@ -65,7 +77,7 @@
 
 <section class="tile-section">
   <h2 class="tile-heading">最新の更新</h2>
-  <p class="tile-lead">毎朝のマーケットレポートとニュース、毎週月曜の分室の、それぞれ最新の回です。</p>
+  <p class="tile-lead">毎朝のマーケットレポートとニュース、日曜の週次リキャップ、月曜の分室の、それぞれ最新の回です。</p>
 
   <ul class="tile-grid latest-grid">
     {%- if report_card -%}
@@ -94,6 +106,35 @@
           <a href="{{ '/market-reports/' | relative_url }}">すべてのレポート →</a>
           <a href="{{ '/articles/market-report-glossary.html' | relative_url }}">用語集</a>
         </p>
+      </li>
+    {%- endif -%}
+
+    {%- if weekly_page -%}
+      {%- assign date = weekly_page.url | remove_first: '/market-reports/weekly/' | remove: '/' -%}
+      {%- assign wlines = weekly_page.content | strip | split: nl -%}
+      {%- assign title = date -%}
+      {%- assign gist = '' -%}
+      {%- for line in wlines -%}
+        {%- assign l = line | strip -%}
+        {%- if forloop.first and l contains '# ' -%}
+          {%- assign title = l | remove_first: '#' | strip -%}
+        {%- endif -%}
+        {%- if l contains '**この週は**' -%}
+          {%- assign gist = l | split: '**この週は**' | last | remove_first: '：' | strip -%}
+        {%- endif -%}
+      {%- endfor -%}
+      <li class="tile latest-tile latest-tile--news">
+        <a class="tile-link" href="{{ weekly_page.url | relative_url }}">
+          <span class="latest-label">週次リキャップ<span class="latest-cadence">毎週日曜</span></span>
+          <span class="tile-body">
+            <span class="tile-title">{{ title }}</span>
+            {%- if gist != '' %}
+            <span class="tile-gist">{{ gist }}</span>
+            {%- endif %}
+            <span class="tile-meta">{{ date }}</span>
+          </span>
+        </a>
+        <p class="latest-more"><a href="{{ '/market-reports/weekly/' | relative_url }}">すべての回 →</a></p>
       </li>
     {%- endif -%}
 
