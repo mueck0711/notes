@@ -109,6 +109,33 @@
       </li>
     {%- endif -%}
 
+    {%- if news_page -%}
+      {%- assign date = news_page.url | remove_first: '/btc-news/' | remove: '/' -%}
+      {%- comment -%}
+        タイトルは日付（フォルダ名 YYYY-MM-DD）から MM/DD で組む。年は下のメタが持ち、
+        H1 の【2026/07/24】と重複するので落とす。系列名は固定なので直書きする。
+        見出し行は `### ` を区切りに切り出す（`## ` は3ハッシュではないので当たらない）。
+      {%- endcomment -%}
+      {%- assign dparts = date | split: '-' -%}
+      {%- assign title = '【' | append: dparts[1] | append: '/' | append: dparts[2] | append: '】きのうのビットコイン' -%}
+      {%- assign blocks = news_page.content | split: '### ' -%}
+      <li class="tile latest-tile latest-tile--news">
+        <a class="tile-link" href="{{ news_page.url | relative_url }}">
+          <span class="latest-label">きのうのビットコイン<span class="latest-cadence">毎朝</span></span>
+          <span class="tile-body">
+            <span class="tile-title">{{ title }}</span>
+            <ul class="tile-headlines">
+              {%- for block in blocks offset: 1 limit: headline_limit -%}
+                <li>{{ block | split: nl | first | strip }}</li>
+              {%- endfor -%}
+            </ul>
+            <span class="tile-meta">{{ date }}</span>
+          </span>
+        </a>
+        <p class="latest-more"><a href="{{ '/btc-news/' | relative_url }}">すべての回 →</a></p>
+      </li>
+    {%- endif -%}
+
     {%- if weekly_page -%}
       {%- assign date = weekly_page.url | remove_first: '/market-reports/weekly/' | remove: '/' -%}
       {%- assign wlines = weekly_page.content | strip | split: nl -%}
@@ -135,33 +162,6 @@
           </span>
         </a>
         <p class="latest-more"><a href="{{ '/market-reports/weekly/' | relative_url }}">すべての回 →</a></p>
-      </li>
-    {%- endif -%}
-
-    {%- if news_page -%}
-      {%- assign date = news_page.url | remove_first: '/btc-news/' | remove: '/' -%}
-      {%- comment -%}
-        タイトルは日付（フォルダ名 YYYY-MM-DD）から MM/DD で組む。年は下のメタが持ち、
-        H1 の【2026/07/24】と重複するので落とす。系列名は固定なので直書きする。
-        見出し行は `### ` を区切りに切り出す（`## ` は3ハッシュではないので当たらない）。
-      {%- endcomment -%}
-      {%- assign dparts = date | split: '-' -%}
-      {%- assign title = '【' | append: dparts[1] | append: '/' | append: dparts[2] | append: '】きのうのビットコイン' -%}
-      {%- assign blocks = news_page.content | split: '### ' -%}
-      <li class="tile latest-tile latest-tile--news">
-        <a class="tile-link" href="{{ news_page.url | relative_url }}">
-          <span class="latest-label">きのうのビットコイン<span class="latest-cadence">毎朝</span></span>
-          <span class="tile-body">
-            <span class="tile-title">{{ title }}</span>
-            <ul class="tile-headlines">
-              {%- for block in blocks offset: 1 limit: headline_limit -%}
-                <li>{{ block | split: nl | first | strip }}</li>
-              {%- endfor -%}
-            </ul>
-            <span class="tile-meta">{{ date }}</span>
-          </span>
-        </a>
-        <p class="latest-more"><a href="{{ '/btc-news/' | relative_url }}">すべての回 →</a></p>
       </li>
     {%- endif -%}
 
